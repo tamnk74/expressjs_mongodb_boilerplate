@@ -7,7 +7,7 @@ import Path from 'path';
 import mongoose from 'mongoose';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import { env, dbConfig } from './server/config';
+import { env } from './server/config';
 import { WebRouter, ApiRouter } from './server/routes';
 
 // Set up the express app
