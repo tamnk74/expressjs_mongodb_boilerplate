@@ -54,5 +54,4 @@ export default class JWT {
       )
     });
   }
-
 }

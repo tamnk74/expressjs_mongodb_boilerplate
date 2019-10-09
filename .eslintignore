@@ -1,9 +1,17 @@
 coverage
 
+# build folder 
 dist
-
 build
 
 node_modules
 
 server/docs
+
+# test files
+/__tests__/**
+*.test.js
+*.spec.js
+
+# config files
+*.config.js

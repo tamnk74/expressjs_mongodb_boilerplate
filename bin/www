@@ -1,8 +1,9 @@
 // This will be our application entry. We'll setup our server here.
 'use strict';
 
-require('babel-core/register');
-require('babel-polyfill');
+// require('babel-core/register');
+// require('babel-polyfill');
+require("@babel/polyfill");
 
 const Path = require('path');
 

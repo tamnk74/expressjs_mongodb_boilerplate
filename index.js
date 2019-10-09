@@ -1,4 +1,3 @@
-
 import Express from 'express';
 import Morgan from 'morgan';
 import CORS from 'cors';
@@ -6,8 +5,10 @@ import BodyParser from 'body-parser';
 import Compress from 'compression';
 import Path from 'path';
 import mongoose from 'mongoose';
-import {env, dbConfig} from './server/config';
-import {WebRouter, ApiRouter} from './server/routes';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+import { env, dbConfig } from './server/config';
+import { WebRouter, ApiRouter } from './server/routes';
 
 // Set up the express app
 const app = Express();
@@ -20,10 +21,10 @@ app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: false }));
 app.use(Compress());
 
-app.use(Express.static(Path.resolve(__dirname, 'server', 'public'), {maxAge: 31557600000}));
+app.use(Express.static(Path.resolve(__dirname, 'server', 'public'), { maxAge: 31557600000 }));
 
 if (env === 'development') {
-    app.use(Morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
+  app.use(Morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
 }
 
 // view engine setup
@@ -35,10 +36,9 @@ app.use(Express.static(Path.join(__dirname, 'server/public')));
 
 // Configuring the database
 mongoose.Promise = global.Promise;
-console.log(dbConfig.URL);
 
 // Connecting to the database
-mongoose.connect(dbConfig.URL, {
+mongoose.connect('mongodb://localhost:27017/events', {
   useNewUrlParser: true
 }).then(() => {
   console.log("Successfully connected to the database");
@@ -48,5 +48,5 @@ mongoose.connect(dbConfig.URL, {
 });
 
 app.use('/api', ApiRouter);
-app.use('/', WebRouter);    
+app.use('/', WebRouter);
 module.exports = app;
