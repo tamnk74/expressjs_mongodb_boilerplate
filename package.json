@@ -43,6 +43,7 @@
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",
+    "babel-eslint": "^10.0.3",
     "chai": "^4.2.0",
     "compression": "^1.7.4",
     "core-js": "^3.2.1",
