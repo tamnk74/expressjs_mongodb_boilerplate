@@ -12,7 +12,7 @@ export default class JWT {
     } else if (req.query && req.query.token) {
       token = req.query.token;
     }
-    else if (req.socket && req.socket.handshake.headers.authorization) {
+    else if (req.socket && req.socket.handshake && req.socket.handshake.headers.authorization) {
       const authorization = req.socket.handshake.headers.authorization;
       if (authorization && authorization.startsWith('Bearer ')) {
         token = authorization.slice(7, authorization.length);

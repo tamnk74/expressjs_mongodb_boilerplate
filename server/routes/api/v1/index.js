@@ -1,4 +1,4 @@
-import {Router} from 'express';
+import { Router } from 'express';
 import EventRouter from './EventRouter';
 import AuthRouter from './AuthRouter';
 import UserRouter from './UserRouter';
@@ -10,5 +10,9 @@ router.use('/auth', AuthRouter);
 router.use('/users', UserRouter);
 router.use('/events', EventRouter);
 router.use('/common', CommonRouter);
+router.route('/health-check')
+  .get((req, res) => {
+    res.send('OK');
+  });
 
 export default router;
