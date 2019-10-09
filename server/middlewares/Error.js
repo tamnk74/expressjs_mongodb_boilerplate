@@ -19,7 +19,7 @@ export default class Error {
     return res.status(err.status).json(response);
   };
 
-  converter = (err, req, res, next) => {
+  converter = (err, req, res) => {
     let convertedError = err;
     if (err instanceof Validation.ValidationError) {
       convertedError = new APIError({
@@ -39,7 +39,7 @@ export default class Error {
     return this.handler(convertedError, req, res);
   };
 
-  notFound = (req, res, next) => {
+  notFound = (req, res) => {
     const err = new APIError({
       message: 'Not found',
       status: HttpStatus.NOT_FOUND,

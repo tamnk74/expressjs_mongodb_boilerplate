@@ -102,7 +102,7 @@ export default class EventController {
         return Response.error(res, 'Can not find out this event!', HTTPStatus.BAD_REQUEST);
       }
 
-      const removedEvent = await User.findByIdAndRemove(req.params.id);
+      const removedEvent = await Event.findByIdAndRemove(req.params.id);
       return Response.success(res, removedEvent);
     } catch (e) {
       return Response.error(res, e, HTTPStatus.INTERNAL_SERVER_ERROR);

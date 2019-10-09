@@ -42,4 +42,4 @@ class APIError extends ExtendableError {
   }
 }
 
-module.exports = APIError;
+export default APIError;

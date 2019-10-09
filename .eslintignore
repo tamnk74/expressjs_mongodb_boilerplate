@@ -1,0 +1,9 @@
+coverage
+
+dist
+
+build
+
+node_modules
+
+server/docs
