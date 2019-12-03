@@ -47,7 +47,7 @@ export default class EventController {
       const id = req.params.id;
       const event = await Event.findOne({ id });
       if (!event || event.userId.toString() !== req.user._id.toString()) {
-        return Response.error(res, 'Can not find out this event!', HTTPStatus.BAD_REQUEST);
+        return Response.error(res, __('event.not_found'), HTTPStatus.BAD_REQUEST);
       }
 
       return Response.success(res, event);
@@ -79,7 +79,7 @@ export default class EventController {
     try {
       const event = await Event.findById(req.params.id);
       if (!event || event.userId !== req.user.id) {
-        return Response.error(res, 'Can not find out this event!', HTTPStatus.BAD_REQUEST);
+        return Response.error(res, __('event.not_found'), HTTPStatus.BAD_REQUEST);
       }
 
       const updatedEvent = await Event.findByIdAndUpdate(req.params.id, {
