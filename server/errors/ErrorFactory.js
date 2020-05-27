@@ -1,9 +1,9 @@
-import CustomJoiError from './Error'
+import CustomError from './Error'
 
-class JoiErrorFactory {
-  getError = (errorCode) => {
-    return new CustomJoiError(errorCode);
+class ErrorFactory {
+  getError = (errorCode, error = null) => {
+    return new CustomError(errorCode, error);
   }
 }
 
-module.exports = JoiErrorFactory;
+module.exports = ErrorFactory;

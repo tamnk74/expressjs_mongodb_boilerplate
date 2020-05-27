@@ -8,5 +8,5 @@ export default (schema, type = 'body') => (req, res, next) => {
     return next();
   }
 
-  return next(errorFactory.getError('ERR-0422'));
+  return next(errorFactory.getError('ERR-0422', error));
 };
