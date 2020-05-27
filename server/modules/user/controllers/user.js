@@ -1,9 +1,6 @@
 import uuid from 'uuid';
 import User from '../../../models/user.js';
-import Response from '../../../helpers/Response';
-import JsonAPISerializer from '../../../helpers/JsonAPISerializer';
-
-const userSerializer = JsonAPISerializer.getSerializer('userSerializer');
+import { userSerializer } from '../serializer'
 
 export default class UserController {
   /**
@@ -28,7 +25,7 @@ export default class UserController {
       });
       const result = await user.save();
 
-      return Response.success(res, result)
+      return res.status(200).json(userSerializer.serialize(result));
     } catch (err) {
       return next(err);
     }
@@ -40,7 +37,8 @@ export default class UserController {
   findAll = async (req, res, next) => {
     try {
       const users = await User.find();
-      return Response.success(res, users);
+
+      return res.status(200).json(userSerializer.serialize(users));
     } catch (err) {
       return next(err);
     }
@@ -52,7 +50,8 @@ export default class UserController {
   show = async (req, res, next) => {
     try {
       const user = await User.findById(req.params.id).populate('user');
-      return Response.success(res, user);
+
+      return res.status(200).json(userSerializer.serialize(user));
     } catch (err) {
       return next(err);
     }
@@ -63,12 +62,13 @@ export default class UserController {
    */
   update = async (req, res, next) => {
     try {
-      const user = await User.findByIdAndUpdate(req.params.id, Object.assign(
+      await User.findByIdAndUpdate(req.params.id, Object.assign(
         { id: uuid.v4() },
         req.body.name ? { name: req.body.name } : {},
         req.body.password ? { password: req.body.password } : {}
       ), { new: true });
-      return Response.success(res, user);
+
+      return res.status(204).json({});
     } catch (err) {
       return next(err);
     }
@@ -79,8 +79,9 @@ export default class UserController {
    */
   delete = async (req, res, next) => {
     try {
-      const user = await User.findByIdAndRemove(req.params.id)
-      return Response.success(res, user);
+      await User.findByIdAndRemove(req.params.id)
+
+      return res.status(200).json({});
     } catch (err) {
       return next(err);
     }
