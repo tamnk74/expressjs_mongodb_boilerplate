@@ -1,11 +1,10 @@
 import HTTPStatus from 'http-status';
 import uuid from 'uuid';
-import Response from '../../../helpers/Response';
 import Event from '../../../models/event';
-import JsonAPISerializer from '../../../helpers/JsonAPISerializer';
-
+import { eventSerializer } from '../serializer';
+import { errorFactory } from '../../../errors';
 const LIMIT = 5;
-const eventSerializer = JsonAPISerializer.getSerializer('eventSerializer');
+
 
 export default class EventController {
 
@@ -19,6 +18,7 @@ export default class EventController {
         .skip((limit * page) - limit)
         .limit(limit);
       console.log(events);
+
       return res.status(200).json(eventSerializer.serialize(events));
     }
     catch (err) {
@@ -36,7 +36,7 @@ export default class EventController {
       })
         .skip((limit * page) - limit)
         .limit(limit);
-      return Response.success(res, events);
+      return res.status(200).json(eventSerializer.serialize(events));
     }
     catch (err) {
       return next(err)
@@ -51,7 +51,7 @@ export default class EventController {
       const event = await Event.findById(id);
       console.log(event, id);
       if (!event || event.userId.toString() !== req.user._id.toString()) {
-        return Response.error(res, 'Can not find out this event!', HTTPStatus.BAD_REQUEST);
+        return next(errorFactory.getError('ERR-0404'));
       }
 
       return res.status(200).json(eventSerializer.serialize(event));
@@ -73,7 +73,7 @@ export default class EventController {
 
       const result = await event.save();
 
-      return res.status(200).json(eventSerializer.serialize(result));
+      return res.status(201).json(eventSerializer.serialize(result));
     } catch (err) {
       return next(err)
     }
@@ -82,18 +82,19 @@ export default class EventController {
   update = async (req, res, next) => {
     try {
       const event = await Event.findById(req.params.id);
-      if (!event || event.userId !== req.user.id) {
-        return Response.error(res, 'Can not find out this event!', HTTPStatus.BAD_REQUEST);
+      if (!event || event.userId != req.user.id) {
+        return next(errorFactory.getError('ERR-0404'));
       }
 
-      const updatedEvent = await Event.findByIdAndUpdate(req.params.id, {
+      await Event.findByIdAndUpdate(req.params.id, {
         id: event.id,
         name: req.body.name || event.name,
         startDate: req.body.startDate || event.startDate,
         dueDate: req.body.dueDate || event.dueDate,
         description: req.body.description || event.description,
       });
-      return Response.success(res, updatedEvent);
+
+      return res.status(204).json({});
     } catch (err) {
       return next(err)
     }
@@ -102,12 +103,13 @@ export default class EventController {
   delete = async (req, res, next) => {
     try {
       const event = await Event.findById(req.params.id);
-      if (!event || event.userId !== req.user.id) {
-        return Response.error(res, 'Can not find out this event!', HTTPStatus.BAD_REQUEST);
+      if (!event || event.userId != req.user.id) {
+        return next(errorFactory.getError('ERR-0404'));
       }
 
-      const removedEvent = await Event.findByIdAndRemove(req.params.id);
-      return Response.success(res, removedEvent);
+      await Event.findByIdAndRemove(req.params.id);
+
+      return res.status(204).json({});
     } catch (err) {
       return next(err)
     }
