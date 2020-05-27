@@ -1,10 +1,9 @@
-'use strict';
 import HttpStatus from 'http-status';
 import Validation from 'express-validation';
 import APIError from '../helpers/ApiError';
 import { env } from '../config';
 
-export default class Error {
+class Error {
   handler = (err, req, res) => {
     const response = {
       code: err.status,
@@ -47,4 +46,6 @@ export default class Error {
     return this.handler(err, req, res);
   };
 }
+
+export default Error;
 

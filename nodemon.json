@@ -2,6 +2,6 @@
   "execMap": {
     "js": "babel-node"
   },
-  "watch": ["src/*", "public/*"],
+  "watch": ["server/*", "public/*"],
   "ext": "js, html, css, json"
 }

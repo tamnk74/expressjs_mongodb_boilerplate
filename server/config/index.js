@@ -3,6 +3,7 @@ import DBConfig from './db-config.js';
 
 DotENV.config();
 const env = process.env.NODE_ENV;
+console.log(DBConfig[process.env.NODE_ENV]);
 module.exports = {
   env,
   port: process.env.PORT,
