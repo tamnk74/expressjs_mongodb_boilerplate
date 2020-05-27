@@ -1,6 +1,7 @@
 import HTTPStatus from 'http-status';
 import { env } from '../config/index';
 
+
 export default class Response {
 
   static success(res, data, pageInfo = null) {

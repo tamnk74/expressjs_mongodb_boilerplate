@@ -1,7 +1,7 @@
 import WebRouter from './web';
-import ApiRouter from './api/v1';
+import ApiRouter from './api';
 
 module.exports = {
-    WebRouter,
-    ApiRouter,
+  WebRouter,
+  ApiRouter,
 };

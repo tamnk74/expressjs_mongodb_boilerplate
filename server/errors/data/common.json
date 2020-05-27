@@ -1,0 +1,27 @@
+{
+  "ERR-0401": {
+    "status": 401,
+    "title": "Unauthorized",
+    "message": "Unauthorized"
+  },
+  "ERR-0400": {
+    "status": 400,
+    "title": "Bad Request",
+    "message": "Bad Request"
+  },
+  "ERR-0403": {
+    "status": 403,
+    "title": "Forbidden",
+    "message": "Forbidden"
+  },
+  "ERR-0404": {
+    "status": 404,
+    "title": "Not Found",
+    "message": "Not Found"
+  },
+  "ERR-0422": {
+    "status": 422,
+    "title": "Invalid Data",
+    "message": "Invalid Data"
+  }
+}

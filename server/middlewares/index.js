@@ -1,7 +1,6 @@
-import Auth from './Auth';
-import Error from './Error';
+import authMiddleware from './auth';
+import Error from './error';
 
-module.exports = {
-  auth: new Auth(),
-  error: new Error(),
-};
+
+export const auth = authMiddleware;
+export const error = new Error();
