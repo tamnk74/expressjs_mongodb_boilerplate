@@ -1,14 +1,16 @@
-import errors from './data'
-console.log(errors);
-class CustomJoiError extends Error {
-  constructor(code) {
+import errors from './data';
+
+class CustomError extends Error {
+  constructor(code, error = null) {
     super();
-    const error = errors[code] || {
-      status: 500,
-      code: 'ERR-0500',
-      title: 'INTERNAL_SERVER_ERROR',
-      detail: 'Internal Server Error!!!',
-    };
+    if (!error) {
+      error = errors[code] || {
+        status: 500,
+        code: 'ERR-0500',
+        title: 'INTERNAL_SERVER_ERROR',
+        detail: 'Internal Server Error!!!',
+      };
+    }
 
     return {
       ...error,
@@ -17,4 +19,4 @@ class CustomJoiError extends Error {
   }
 }
 
-export default CustomJoiError;
+export default CustomError;

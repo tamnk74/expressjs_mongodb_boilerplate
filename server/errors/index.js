@@ -1,9 +1,13 @@
 import ErrorFactory from './ErrorFactory';
-import JsonAPISerializer from '../helpers/JsonAPISerializer';
+import { Serializer as JSONAPISerializer } from 'jsonapi-serializer';
 
-const errorSerializer = JsonAPISerializer.getSerializer('errorSerializer');
+const errorSerializer = new JSONAPISerializer('errors', {
+  attributes: ['status', 'message', 'code', 'detail', 'title'],
+  keyForAttribute: 'snake_case',
+});
 
 export const errorFactory = new ErrorFactory();
+
 export const handleError = (err, req, res, next) => {
   if (err.status) {
     return res.status(err.status).send(errorSerializer.serialize([err]));
