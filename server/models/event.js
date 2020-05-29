@@ -1,14 +1,20 @@
 import mongoose from 'mongoose';
 
 const EventSchema = new mongoose.Schema({
-  userId: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
+    index: {
+      unique: true
+    }
   },
   name: {
     type: String,
-    required: true
+    required: true,
+    index: {
+      unique: true
+    }
   },
   startDate: {
     type: Date,

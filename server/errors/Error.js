@@ -1,4 +1,5 @@
 import errors from './data';
+import joiError from './data/joi.json'
 
 class CustomError extends Error {
   constructor(code, error = null) {
@@ -10,6 +11,11 @@ class CustomError extends Error {
         title: 'INTERNAL_SERVER_ERROR',
         detail: 'Internal Server Error!!!',
       };
+    }
+    if (error && error.isJoi) {
+      const { type, context: { key } } = error;
+      code = joiError[`${key}.${type}`];
+      error = errors[code] || error;
     }
 
     return {

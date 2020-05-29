@@ -1,4 +1,3 @@
-import HTTPStatus from 'http-status';
 import uuid from 'uuid';
 import Event from '../../../models/event';
 import { eventSerializer } from '../serializer';
@@ -7,17 +6,15 @@ const LIMIT = 5;
 
 
 export default class EventController {
-
   /**
    * Paginate event
    */
   index = async (req, res, next) => {
     try {
       const { page = 1, limit = LIMIT } = req.query;
-      const events = await Event.find()
+      const events = await Event.find().populate('user')
         .skip((limit * page) - limit)
-        .limit(limit);
-      console.log(events);
+        .limit(+limit);
 
       return res.status(200).json(eventSerializer.serialize(events));
     }
@@ -47,19 +44,16 @@ export default class EventController {
    */
   show = async (req, res, next) => {
     try {
-      const id = req.params.id;
-      const event = await Event.findById(id);
-      console.log(event, id);
-      if (!event || event.userId.toString() !== req.user._id.toString()) {
-        return next(errorFactory.getError('ERR-0404'));
-      }
+      const { event } = req;
 
       return res.status(200).json(eventSerializer.serialize(event));
     } catch (err) {
       return next(err)
     }
   };
-
+  /**
+   * Add new event
+   */
   create = async (req, res, next) => {
     try {
       const event = new Event({
@@ -68,7 +62,7 @@ export default class EventController {
         startDate: req.body.startDate,
         dueDate: req.body.dueDate,
         description: req.body.description,
-        userId: req.user._id
+        user: req.user._id
       });
 
       const result = await event.save();
@@ -78,16 +72,14 @@ export default class EventController {
       return next(err)
     }
   };
-
+  /**
+   * Update an event
+   */
   update = async (req, res, next) => {
     try {
-      const event = await Event.findById(req.params.id);
-      if (!event || event.userId != req.user.id) {
-        return next(errorFactory.getError('ERR-0404'));
-      }
+      const { event } = req;
 
       await Event.findByIdAndUpdate(req.params.id, {
-        id: event.id,
         name: req.body.name || event.name,
         startDate: req.body.startDate || event.startDate,
         dueDate: req.body.dueDate || event.dueDate,
@@ -99,13 +91,12 @@ export default class EventController {
       return next(err)
     }
   };
-
+  /**
+   * Delete an event
+   */
   delete = async (req, res, next) => {
     try {
-      const event = await Event.findById(req.params.id);
-      if (!event || event.userId != req.user.id) {
-        return next(errorFactory.getError('ERR-0404'));
-      }
+      const { event } = req;
 
       await Event.findByIdAndRemove(req.params.id);
 
