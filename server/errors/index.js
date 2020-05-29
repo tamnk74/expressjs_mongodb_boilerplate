@@ -2,7 +2,7 @@ import ErrorFactory from './ErrorFactory';
 import { Serializer as JSONAPISerializer } from 'jsonapi-serializer';
 
 const errorSerializer = new JSONAPISerializer('errors', {
-  attributes: ['status', 'message', 'code', 'detail', 'title'],
+  attributes: ['status', 'code', 'error', 'message', 'detail'],
   keyForAttribute: 'snake_case',
 });
 

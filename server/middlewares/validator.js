@@ -8,5 +8,10 @@ export default (schema, type = 'body') => (req, res, next) => {
     return next();
   }
 
-  return next(errorFactory.getError('ERR-0422', error));
+  return next(errorFactory.getError('ERR-0422', {
+    status: 422,
+    isJoi: true,
+    error: 'Invalid data',
+    ...error.details[0]
+  }));
 };
