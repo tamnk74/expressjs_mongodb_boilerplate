@@ -2,26 +2,31 @@
   "ERR-0401": {
     "status": 401,
     "error": "Unauthorized",
-    "message": "Unauthorized"
+    "detail": "Unauthorized"
   },
   "ERR-0400": {
     "status": 400,
     "error": "Bad Request",
-    "message": "Bad Request"
+    "detail": "Bad Request"
   },
   "ERR-0403": {
     "status": 403,
-    "error": "Forbidden",
-    "message": "Forbidden"
+    "title": "Forbidden",
+    "detail": "Forbidden"
   },
   "ERR-0404": {
     "status": 404,
-    "error": "Not Found",
-    "message": "Not Found"
+    "title": "Not Found",
+    "detail": "Not Found"
   },
   "ERR-0422": {
     "status": 422,
-    "error": "Invalid Data",
-    "message": "Invalid Data"
+    "title": "Invalid Data",
+    "detail": "Invalid Data"
+  },
+  "ERR-0500": {
+    "status": 500,
+    "title": "Internal Server title",
+    "detail": "Internal Server title"
   }
 }

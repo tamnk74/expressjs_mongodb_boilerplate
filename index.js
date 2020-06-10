@@ -10,6 +10,7 @@ import 'regenerator-runtime/runtime';
 import { env, dbConfig } from './server/config';
 import { WebRouter, ApiRouter } from './server/routes';
 import { handleError } from './server/errors';
+import './server/schedulers/show-time';
 
 // Set up the express app
 const app = Express();
