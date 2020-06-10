@@ -1,37 +1,37 @@
 {
   "EVEN-0001": {
     "status": 422,
-    "error": "Invalid Date",
-    "message": "Start date is invalid"
+    "title": "Invalid Date",
+    "detail": "Start date is invalid"
   },
   "EVEN-0002": {
     "status": 422,
-    "error": "Invalid Date",
-    "message": "Due date is invalid"
+    "title": "Invalid Date",
+    "detail": "Due date is invalid"
   },
   "EVEN-0003": {
     "status": 422,
-    "error": "Invalid Date",
-    "message": "Name is too short"
+    "title": "Invalid Date",
+    "detail": "Name is too short"
   },
   "EVEN-0004": {
     "status": 422,
-    "error": "Invalid Date",
-    "message": "Name is too long"
+    "title": "Invalid Date",
+    "detail": "Name is too long"
   },
   "EVEN-0005": {
     "status": 422,
-    "error": "Invalid Date",
-    "message": "Name is already exist"
+    "title": "Invalid Date",
+    "detail": "Name is already exist"
   },
   "EVEN-0006": {
     "status": 422,
-    "error": "Invalid Date",
-    "message": "Name is already exist"
+    "title": "Invalid Date",
+    "detail": "Name is already exist"
   },
   "EVEN-1001": {
     "status": 400,
-    "error": "Not Found",
-    "message": "Event not found"
+    "title": "Not Found",
+    "detail": "Event not found"
   }
 }

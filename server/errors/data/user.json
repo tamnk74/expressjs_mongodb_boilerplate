@@ -2,11 +2,11 @@
   "LOG-0001": {
     "status": 400,
     "title": "Incorrect username or password",
-    "message": "Incorrect username or password"
+    "detail": "Incorrect username or password"
   },
   "LOG-0002": {
     "status": 400,
     "title": "Invalid username or password",
-    "message": "Invalid username or password"
+    "detail": "Invalid username or password"
   }
 }
