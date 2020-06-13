@@ -1,0 +1,6 @@
+/login:
+  post:
+    $ref: ./auth/login.yaml
+/me:
+  get:
+    $ref: ./auth/me.yaml

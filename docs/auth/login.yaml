@@ -1,0 +1,49 @@
+tags:
+  - Auth
+summary: "API Login"
+description: Get authentification token
+requestBody:
+  description: Login Body
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - email
+          - password
+        properties:
+          email:
+            type: string
+            description: Email
+            example: "admin@mail.com"
+          password:
+            type: string
+            description: Password
+            example: "1234"
+responses:
+  401:
+    description: Unauthorized
+  200:
+    description: successful operation
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            access_token:
+              type: string
+              example: "access_token"
+            refresh_token:
+              type: string
+              example: "refresh_token"
+            type:
+              type: string
+              example: "bearer"
+  403:
+    description: Forbidden access. Permission not found
+  404:
+    description: Resource not found for operation
+  405:
+    description: Method Not Allowed
+  500:
+    description: Server Resource operation error

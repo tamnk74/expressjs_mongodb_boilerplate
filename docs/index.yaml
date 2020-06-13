@@ -1,0 +1,26 @@
+openapi: 3.0.0
+info:
+  $ref: ./info/index.yaml
+servers:
+  $ref: servers.yaml
+components:
+  securitySchemes:
+    bearerAuth:            #arbitrary  name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      in: header
+    ApiKeyAuth:        # arbitrary name for the security scheme
+      type: apiKey
+      in: header       # can be "header", "query" or "cookie"
+      name: Secret
+  definitions:
+    $ref: definitions.yaml
+  schemas:
+    $ref: schemas.yaml
+security:
+  - ApiKeyAuth: []
+paths:
+  $ref: ./paths.yaml
+  /swagger:
+    x-swagger-pipe: swagger_raw

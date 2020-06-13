@@ -1,0 +1,55 @@
+Role:
+  type: object
+  properties:
+    id:
+      type: string
+      example: "qwe13r1rqwrqr3r13r12rc1d12r12r"
+    type:
+      type: string
+      example: "roles"
+    attributes:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "33rgf2g2ef23f23g2wesdh565755"
+        name:
+          type: string
+          example: "admin"
+User:
+  type: object
+  properties:
+    id:
+      type: string
+      example: "34t4334h34h346tt35y57k67l6786sge"
+    type:
+      type: string
+      example: "users"
+    links:
+      type: object
+      properties:
+        self:
+          type: string
+          example: "http://localhost:3000/api/me"
+    attributes:
+      type: object
+      properties:
+        full_name:
+          type: string
+          example: "admin"
+        email:
+          type: string
+          example: "admin@gmail.com"
+        avatar:
+          type: string
+          example: "https://s3.amazonaws.com/avatar.jpg"
+    relationships:
+      type: object
+      properties:
+        roles:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Role'

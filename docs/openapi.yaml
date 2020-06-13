@@ -1,0 +1,175 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: NODE APP API
+  description: NODE APP API
+servers:
+  - url: '{protocol}://{host}'
+    description: API document
+    variables:
+      protocol:
+        default: http
+        enum:
+          - http
+          - https
+      host:
+        description: API server IP Address or host name.
+        default: node.api.local/api
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      in: header
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Secret
+  definitions:
+    $ref: definitions.yaml
+  schemas:
+    Role:
+      type: object
+      properties:
+        id:
+          type: string
+          example: qwe13r1rqwrqr3r13r12rc1d12r12r
+        type:
+          type: string
+          example: roles
+        attributes:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 33rgf2g2ef23f23g2wesdh565755
+            name:
+              type: string
+              example: admin
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 34t4334h34h346tt35y57k67l6786sge
+        type:
+          type: string
+          example: users
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: 'http://localhost:3000/api/me'
+        attributes:
+          type: object
+          properties:
+            full_name:
+              type: string
+              example: admin
+            email:
+              type: string
+              example: admin@gmail.com
+            avatar:
+              type: string
+              example: 'https://s3.amazonaws.com/avatar.jpg'
+        relationships:
+          type: object
+          properties:
+            roles:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Role'
+security:
+  - ApiKeyAuth: []
+paths:
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: API Login
+      description: Get authentification token
+      requestBody:
+        description: Login Body
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  description: Email
+                  example: admin@mail.com
+                password:
+                  type: string
+                  description: Password
+                  example: '1234'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    example: access_token
+                  refresh_token:
+                    type: string
+                    example: refresh_token
+                  type:
+                    type: string
+                    example: bearer
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden access. Permission not found
+        '404':
+          description: Resource not found for operation
+        '405':
+          description: Method Not Allowed
+        '500':
+          description: Server Resource operation error
+  /me:
+    get:
+      tags:
+        - Auth
+      summary: User info
+      description: Get user info
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      included:
+                        type: array
+                        items:
+                          oneOf:
+                            - $ref: '#/components/schemas/Role'
+                      data:
+                        $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden access. Permission not found
+        '404':
+          description: Resource not found for operation
+        '405':
+          description: Method Not Allowed
+        '500':
+          description: Server Resource operation error
+
