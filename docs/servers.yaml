@@ -1,0 +1,15 @@
+- url: '{protocol}://{host}'
+  description: API document
+  variables:
+    protocol:
+      default: http
+      enum:
+      - http
+      - https
+    host:
+      description: API server IP Address or host name.
+      default: "node.api.local/api"
+    # version:
+    #   default: v1
+    #   enum:
+    #   - v1
