@@ -2,12 +2,13 @@ import errors from './data';
 import joiError from './joi'
 
 class ApiError extends Error {
-  constructor({ code, status, title, detail }) {
+  constructor({ code, status, title, detail, stack }) {
     super();
     this.code = code;
     this.status = status;
     this.title = title;
     this.detail = detail;
+    this.stack = stack;
   }
 
   setError(error) {

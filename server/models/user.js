@@ -44,5 +44,6 @@ UserSchema.methods.comparePassword = function (candidatePassword) {
 };
 
 const User = mongoose.model('User', UserSchema);
+User.INACTIVE = 1;
 
 module.exports = User;

@@ -1,4 +1,9 @@
 {
+  "USER-0001": {
+    "status": 403,
+    "title": "Inactive User",
+    "detail": "User is inactive"
+  },
   "LOG-0001": {
     "status": 400,
     "title": "Incorrect username or password",

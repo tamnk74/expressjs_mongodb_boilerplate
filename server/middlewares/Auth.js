@@ -1,24 +1,37 @@
-import { errorFactory } from '../errors';
+import passport from 'passport';
+import { Strategy as JWTstrategy, ExtractJwt } from 'passport-jwt';
 import User from '../models/user';
-import JWT from '../helpers/JWT';
+import { jwtSecretKey } from '../config'
+import { errorFactory } from '../errors'
 
-export default async (req, res, next) => {
+const jwtOpts = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: jwtSecretKey,
+  issuer: 'tamnk74@gmail.com',
+}
+
+passport.use(new JWTstrategy(jwtOpts, (jwtPayload, done) => {
   try {
-    const token = JWT.getToken(req);
-    if (!token) {
-      return next(errorFactory.getError('ERR-0401'));
-    }
+    console.log(jwtPayload)
+    return done(null, jwtPayload);
+  } catch (error) {
+    return done(error);
+  }
+}));
 
-    const jwtPayload = await JWT.verify(token);
-    const user = await User.findById(jwtPayload.id);
+export default (req, res, next) => {
+  passport.authenticate('jwt', { session: false }, async function (err, jwtPayload) {
+    const token = req.headers.authorization.split(' ')[1];
+    console.log(jwtPayload);
+    const { user } = jwtPayload;
     if (!user) {
       return next(errorFactory.getError('ERR-0401'));
     }
+    if (user.status === User.INACTIVE) {
+      return next(errorFactory.getError('USER-0001'));
+    }
 
     req.user = user;
-
     next();
-  } catch (e) {
-    return next(errorFactory.getError('ERR-0401'));
-  }
-};
+  })(req, res)
+}
