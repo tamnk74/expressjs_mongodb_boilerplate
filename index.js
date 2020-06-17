@@ -5,6 +5,7 @@ import BodyParser from 'body-parser';
 import Compress from 'compression';
 import Path from 'path';
 import mongoose from 'mongoose';
+import passport from 'passport';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { env, dbConfig } from './server/config';
@@ -22,6 +23,9 @@ app.use(CORS());
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: false }));
 app.use(Compress());
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(Express.static(Path.resolve(__dirname, 'server', 'public'), { maxAge: 31557600000 }));
 

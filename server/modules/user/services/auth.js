@@ -9,7 +9,7 @@ class AuthService {
       throw errorFactory.getError('LOG-0001');
     }
 
-    const token = jwt.sign({ id: user.id });
+    const token = jwt.generateToken({ user: { id: user.id } });
     return {
       user: {
         id: user.id,

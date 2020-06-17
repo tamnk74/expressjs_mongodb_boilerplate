@@ -5,6 +5,7 @@ import ApiError from './ApiError';
 class ErrorFactory {
   getError = (errorCode, error = null) => {
     // Handle defined error code
+    const originalError = error;
     if (!error) {
       error = errors[errorCode]
     }
@@ -23,7 +24,6 @@ class ErrorFactory {
     }
     // Handle other errors
     if (!error.status) {
-      const originalError = error;
       error = {
         ...errors['ERR-0500'],
         ...error,
@@ -32,6 +32,7 @@ class ErrorFactory {
       }
       error.detail = originalError.message || error.detail;
     }
+    error.code = errorCode || error.code;
 
     return new ApiError(error);
   }

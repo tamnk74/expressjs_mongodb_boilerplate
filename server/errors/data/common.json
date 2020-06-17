@@ -1,12 +1,12 @@
 {
   "ERR-0401": {
     "status": 401,
-    "error": "Unauthorized",
+    "title": "Unauthorized",
     "detail": "Unauthorized"
   },
   "ERR-0400": {
     "status": 400,
-    "error": "Bad Request",
+    "title": "Bad Request",
     "detail": "Bad Request"
   },
   "ERR-0403": {

@@ -2,11 +2,11 @@ import DotENV from 'dotenv';
 import DBConfig from './db-config.js';
 
 DotENV.config();
-const env = process.env.NODE_ENV;
-module.exports = {
-  env,
-  port: process.env.PORT,
-  JWT_SECRET: process.env.JWT_SECRET,
-  JWT_EXPIRATION_MINUTES: process.env.JWT_EXPIRATION_MINUTES,
-  dbConfig: DBConfig[process.env.NODE_ENV],
-};
+
+export const env = process.env.NODE_ENV || 'development';
+export const port = process.env.PORT || 'http://localhost:3000';
+export const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
+export const jwtSecretKey = process.env.JWT_SECRET_KEY || 'jwt_secret';
+export const jwtExpireTime = process.env.JWT_EXPIRE_TIME || '1h';
+export const dbConfig = DBConfig[env];
+// export const swagger = Swagger[env];

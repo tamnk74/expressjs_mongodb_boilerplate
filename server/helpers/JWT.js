@@ -1,15 +1,15 @@
 import JsonWebToken from 'jsonwebtoken';
 import path from 'path';
 import fs from 'fs';
+import { jwtExpireTime, jwtSecretKey } from '../config'
 
-const jwtExpiredTime = process.env.JWT_EXPIRED_LOGIN || 3600*24*7;
 const publicKey = fs.readFileSync(path.resolve(__dirname, '..', 'config', 'cert', 'public.key'), 'utf8');
 const privateKey = fs.readFileSync(path.resolve(__dirname, '..', 'config', 'cert', 'private.key'), 'utf8');
 const verifyOptions = {
   issuer: 'Events',
   subject: 'khac.tam.94@gmail.com',
   audience: 'localhost',
-  expiresIn: jwtExpiredTime,
+  expiresIn: jwtExpireTime,
   algorithm: 'RS256'
 };
 
@@ -35,6 +35,13 @@ export default class JWT {
 
   static sign(payload) {
     return JsonWebToken.sign(payload, privateKey, verifyOptions);
+  }
+
+  static generateToken(payload) {
+    return JsonWebToken.sign(payload, jwtSecretKey, {
+      expiresIn: jwtExpireTime,
+      issuer: 'tamnk74@gmail.com'
+    });
   }
 
   static verify(token) {
