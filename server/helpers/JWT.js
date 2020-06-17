@@ -1,10 +1,10 @@
 import JsonWebToken from 'jsonwebtoken';
-import path from 'path';
-import fs from 'fs';
+// import path from 'path';
+// import fs from 'fs';
 import { jwtExpireTime, jwtSecretKey } from '../config'
 
-const publicKey = fs.readFileSync(path.resolve(__dirname, '..', 'config', 'cert', 'public.key'), 'utf8');
-const privateKey = fs.readFileSync(path.resolve(__dirname, '..', 'config', 'cert', 'private.key'), 'utf8');
+// const publicKey = fs.readFileSync(path.resolve(__dirname, '..', 'config', 'cert', 'public.key'), 'utf8');
+// const privateKey = fs.readFileSync(path.resolve(__dirname, '..', 'config', 'cert', 'private.key'), 'utf8');
 const verifyOptions = {
   issuer: 'Events',
   subject: 'khac.tam.94@gmail.com',
@@ -33,9 +33,9 @@ export default class JWT {
     return token;
   }
 
-  static sign(payload) {
-    return JsonWebToken.sign(payload, privateKey, verifyOptions);
-  }
+  // static sign(payload) {
+  //   return JsonWebToken.sign(payload, privateKey, verifyOptions);
+  // }
 
   static generateToken(payload) {
     return JsonWebToken.sign(payload, jwtSecretKey, {
@@ -44,7 +44,7 @@ export default class JWT {
     });
   }
 
-  static verify(token) {
-    return JsonWebToken.verify(token, publicKey, verifyOptions);
-  }
+  // static verify(token) {
+  //   return JsonWebToken.verify(token, publicKey, verifyOptions);
+  // }
 }
