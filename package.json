@@ -31,7 +31,8 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "redis": "^3.0.2",
-    "regenerator-runtime": "^0.13.3"
+    "regenerator-runtime": "^0.13.3",
+    "stripe": "^8.69.0"
   },
   "scripts": {
     "build": "babel  ./ -d dist/",
