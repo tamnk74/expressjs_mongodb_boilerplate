@@ -1,9 +1,17 @@
 const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
+const findOrCreate = require('./plugins/findOrCreate');
 const SALT_WORK_FACTOR = 10;
 
 const UserSchema = mongoose.Schema({
   name: {
+    type: String,
+    required: true,
+    index: {
+      unique: true
+    }
+  },
+  email: {
     type: String,
     required: true,
     index: {
@@ -38,6 +46,8 @@ UserSchema.pre('save', function (next) {
     });
   });
 });
+
+UserSchema.plugin(findOrCreate);
 
 UserSchema.methods.comparePassword = function (candidatePassword) {
   return bcryptjs.compareSync(candidatePassword, this.password);

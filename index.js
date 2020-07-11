@@ -1,64 +1,95 @@
-import Express from 'express';
-import Morgan from 'morgan';
-import CORS from 'cors';
-import BodyParser from 'body-parser';
-import Compress from 'compression';
-import Path from 'path';
-import mongoose from 'mongoose';
-import passport from 'passport';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import { env, dbConfig } from './server/config';
-import { WebRouter, ApiRouter } from './server/routes';
-import { handleError } from './server/errors';
-import './server/schedulers/show-time';
+// This will be our application entry. We'll setup our server here.
+'use strict';
 
-// Set up the express app
-const app = Express();
+// require('babel-core/register');
+// require('babel-polyfill');
+require("@babel/polyfill");
 
-// Allow cors
-app.use(CORS());
+const Path = require('path');
 
-// Parse incoming requests data
-app.use(BodyParser.json());
-app.use(BodyParser.urlencoded({ extended: false }));
-app.use(Compress());
+global.__rootDir = Path.resolve(__dirname, '..');
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use(Express.static(Path.resolve(__dirname, 'server', 'public'), { maxAge: 31557600000 }));
-
-if (env !== 'product') {
-  app.use(Morgan('dev'));
-}
-
-// view engine setup
-app.set('views', Path.join(__dirname, 'server/views'));
-app.set('view engine', 'ejs');
-
-// set path for static assets
-app.use(Express.static(Path.join(__dirname, 'server/public')));
-
-// Configuring the database
-mongoose.Promise = global.Promise;
-
-// Connecting to the database
-mongoose.connect(dbConfig.URL, {
-  useNewUrlParser: true
-}).then(() => {
-  console.log('Successfully connected to the database');
-}).catch((err) => {
-  console.log('Could not connect to the database. Exiting now...', err);
-  process.exit();
-});
-
-app.use('/api', ApiRouter);
-app.use('/', WebRouter);
+const Http = require('http');
+const { port, env } = require('./server/config');
+const app = require('./server/app.js');
 
 /**
- * Error Handler.
+ * Get port from environment and store in Express.
  */
-app.use(handleError);
 
-module.exports = app;
+const normalPort = normalizePort(port || '3000');
+app.set('port', normalPort);
+
+/**
+ * Create HTTP server.
+ */
+
+const server = Http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(normalPort);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  const port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  const bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  const address = server.address();
+  const bind = typeof address === 'string'
+    ? 'pipe ' + address
+    : 'port ' + address.port;
+  console.log('Listening on ' + bind + ' ' + env);
+}

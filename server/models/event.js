@@ -1,4 +1,5 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
+const findOrCreate = require('./plugins/findOrCreate');
 
 const EventSchema = new mongoose.Schema({
   user: {
@@ -30,6 +31,8 @@ const EventSchema = new mongoose.Schema({
 }, {
   timestamps: true
 })
+
+EventSchema.plugin(findOrCreate);
 
 const Event = mongoose.model('Event', EventSchema);
 
