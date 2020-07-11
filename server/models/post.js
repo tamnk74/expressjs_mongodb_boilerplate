@@ -7,17 +7,13 @@ const PostSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-    index: {
-      unique: true
-    }
+    index: true,
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
     required: true,
-    index: {
-      unique: true
-    }
+    index: true
   },
   slug: {
     type: String,
@@ -55,11 +51,10 @@ PostSchema.plugin(findOrCreate);
 
 PostSchema.pre('save', function (next) {
   const post = this;
-  console.log('PRE: ', post);
   // only hash the password if it has been modified (or is new)
   if (!post.isModified('title')) return next();
 
-  post.slug = stringToSlug(post.title) + (Date.now() / 1000);
+  post.slug = stringToSlug(post.title) + (~~(Date.now() / 1000));
   next();
 });
 
