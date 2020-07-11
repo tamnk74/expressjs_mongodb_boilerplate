@@ -55,7 +55,7 @@ PostSchema.plugin(findOrCreate);
 
 PostSchema.pre('save', function (next) {
   const post = this;
-  console.log('PRE: ', post);
+
   // only hash the password if it has been modified (or is new)
   if (!post.isModified('title')) return next();
 
