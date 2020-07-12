@@ -1,3 +1,3 @@
-import EventController from './event'
+import EventController from './event';
 
 export const eventController = new EventController();

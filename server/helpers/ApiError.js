@@ -5,7 +5,7 @@ import HttpStatus from 'http-status';
  */
 class ExtendableError extends Error {
   constructor({
-    message, errors, status, isPublic, stack,
+    message, errors, status, isPublic, stack
   }) {
     super(message);
     this.name = this.constructor.name;
@@ -30,14 +30,14 @@ class APIError extends ExtendableError {
    * @param {boolean} isPublic - Whether the message should be visible to user or not.
    */
   constructor({
-    message,
-    errors,
-    stack,
-    status = HttpStatus.INTERNAL_SERVER_ERROR,
-    isPublic = false,
+    message, errors, stack, status = HttpStatus.INTERNAL_SERVER_ERROR, isPublic = false
   }) {
     super({
-      message, errors, status, isPublic, stack,
+      message,
+      errors,
+      status,
+      isPublic,
+      stack,
     });
   }
 }

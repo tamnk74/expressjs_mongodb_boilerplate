@@ -13,14 +13,13 @@ const findOrCreate = (schema) => {
    * @param {Object} [data] - data for new instance in case of not found
    */
   schema.statics.findOrCreate = async function (filter, data) {
-
     const instance = await this.findOne(filter);
     if (instance) {
       return [false, instance];
     }
     console.log(data);
     const newInstance = await this.create(data);
-    return [true, newInstance]
+    return [true, newInstance];
   };
 };
 

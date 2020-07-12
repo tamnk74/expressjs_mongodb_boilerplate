@@ -5,7 +5,6 @@ export const userSerializer = new JSONAPISerializer('users', {
   keyForAttribute: 'snake_case',
 });
 
-
 export const errorSerializer = new JSONAPISerializer('errors', {
   attributes: ['id', 'status', 'message', 'detail'],
   keyForAttribute: 'snake_case',

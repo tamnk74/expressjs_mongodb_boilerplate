@@ -1,7 +1,6 @@
 // This will be our application entry. We'll setup our server here.
-'use strict';
 
-require("@babel/polyfill");
+require('@babel/polyfill');
 
 const Path = require('path');
 
@@ -61,18 +60,16 @@ function onError(error) {
     throw error;
   }
 
-  const bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      console.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      console.error(`${bind} is already in use`);
       process.exit(1);
       break;
     default:
@@ -86,8 +83,6 @@ function onError(error) {
 
 function onListening() {
   const address = server.address();
-  const bind = typeof address === 'string'
-    ? 'pipe ' + address
-    : 'port ' + address.port;
-  console.log('Listening on ' + bind + ' ' + env);
+  const bind = typeof address === 'string' ? `pipe ${address}` : `port ${address.port}`;
+  console.log(`Listening on ${bind} ${env}`);
 }

@@ -5,7 +5,7 @@ export const eventSerializer = new JSONAPISerializer('events', {
   user: {
     ref: 'id',
     attributes: ['id', 'name'],
-    keyForAttribute: 'snake_case'
+    keyForAttribute: 'snake_case',
   },
   keyForAttribute: 'snake_case',
 });

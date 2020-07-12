@@ -8,11 +8,11 @@ class UserService {
       const token = jwt.sign({ sub: user.id }, config.secret);
       return {
         ...user.toJSON(),
-        token
+        token,
       };
     }
     throw errorFactory.getError('ERR-0400');
-  }
+  };
 }
 
 export default UserService;

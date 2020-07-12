@@ -1,8 +1,10 @@
 import errors from './data';
-import joiError from './joi'
+import joiError from './joi';
 
 class ApiError extends Error {
-  constructor({ code, status, title, detail, stack }) {
+  constructor({
+    code, status, title, detail, stack
+  }) {
     super();
     this.code = code;
     this.status = status;
@@ -13,17 +15,20 @@ class ApiError extends Error {
 
   setError(error) {
     if (!error) {
-      error = errors[code]
+      error = errors[this.code];
     }
     if (!error) {
-      console.log('Missing error ', code);
+      console.log('Missing error ', this.code);
       error = errors['ERR-0500'];
       error.code = 500;
     }
     if (error && error.isJoi) {
-      const { type, context: { key } } = error;
-      code = joiError[`${key}.${type}`];
-      error = errors[code] || error;
+      const {
+        type,
+        context: { key },
+      } = error;
+      this.code = joiError[`${key}.${type}`];
+      error = errors[this.code] || error;
     }
 
     return this;

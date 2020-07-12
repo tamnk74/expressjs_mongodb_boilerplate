@@ -1,9 +1,9 @@
 import passport from 'passport';
 import User from '../models/user';
-import { errorFactory } from '../errors'
+import { errorFactory } from '../errors';
 
 export default (req, res, next) => {
-  passport.authenticate('jwt', { session: false }, async function (err, jwtPayload) {
+  passport.authenticate('jwt', { session: false }, async (err, jwtPayload) => {
     const { user } = jwtPayload;
     if (!user) {
       return next(errorFactory.getError('ERR-0401'));
@@ -14,5 +14,5 @@ export default (req, res, next) => {
 
     req.user = user;
     next();
-  })(req, res)
-}
+  })(req, res);
+};

@@ -1,6 +1,6 @@
-import Event from '../../../models/event';
-import { errorFactory } from '../../../errors'
 import { Types } from 'mongoose';
+import Event from '../../../models/event';
+import { errorFactory } from '../../../errors';
 
 export const verifyUserEvent = async function (req, res, next) {
   try {
@@ -11,7 +11,7 @@ export const verifyUserEvent = async function (req, res, next) {
 
     const event = await Event.findById(id).populate('user');
     const { user } = req;
-    if (!event || event.user._id.toString() !== event.user._id.toString()) {
+    if (!event || event.user._id.toString() !== user._id.toString()) {
       return next(errorFactory.getError('EVEN-1001'));
     }
 
@@ -20,4 +20,4 @@ export const verifyUserEvent = async function (req, res, next) {
   } catch (err) {
     return next(err);
   }
-}
+};
