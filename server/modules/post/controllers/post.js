@@ -1,7 +1,11 @@
 import uuid from 'uuid';
 import Post from '../../../models/post';
-import { postSerializer } from '../serializer';
+import * as postService from '../services/post';
+import { getPostSerializer } from '../serializer';
 import { errorFactory } from '../../../errors';
+import Pagination from '../../../helpers/Pagination';
+
+const postSerializer = getPostSerializer();
 
 export default class PostController {
   /**
@@ -9,31 +13,25 @@ export default class PostController {
    */
   index = async (req, res, next) => {
     try {
-      const posts = await Post.paginate({}, req.query);
-      console.log(posts);
-      return res.status(200).json(postSerializer.serialize(posts.results));
+      const pagination = new Pagination(req.query);
+      const result = await postService.paginate({
+        ...req.query,
+        skip: pagination.skip,
+        limit: pagination.limit
+      });
+
+      pagination.setOriginalUrl(`${req.protocol}://${req.get('host')}${req.originalUrl}`)
+        .setTotal(result.total);
+      const meta = pagination.getMeta();
+      const links = pagination.getLinks();
+
+      return res.status(200).json(getPostSerializer(links, meta).serialize(result.items));
     }
     catch (err) {
       return next(err)
     }
   };
-  /**
-   * Post is already ended
-   */
-  endedEvent = async (req, res, next) => {
-    try {
-      const { page = 1, limit = LIMIT } = req.query;
-      const posts = await Post.find({
-        dueDate: { $lte: new Date() }
-      })
-        .skip((limit * page) - limit)
-        .limit(limit);
-      return res.status(200).json(postSerializer.serialize(posts));
-    }
-    catch (err) {
-      return next(err)
-    }
-  };
+
   /**
    * Get one post
    */
