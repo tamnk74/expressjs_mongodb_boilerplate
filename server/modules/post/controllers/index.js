@@ -1,3 +1,3 @@
-import PostController from './post'
+import PostController from './post';
 
 export const postController = new PostController();

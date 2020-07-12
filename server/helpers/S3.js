@@ -4,7 +4,7 @@ import { accessKeyId, secretAccessKey, region } from '../config/s3';
 AWS.config.update({
   accessKeyId,
   secretAccessKey,
-  region
+  region,
 });
 
 const s3 = new AWS.S3();
@@ -12,13 +12,15 @@ const s3 = new AWS.S3();
 export const getObject = ({ bucketName, fileKey }) => {
   const options = {
     Bucket: bucketName,
-    Key: fileKey
+    Key: fileKey,
   };
 
   return s3.getObject(options).promise();
-}
+};
 
-export const uploadFile = ({ bucketName, filePath, data, metadata }) => {
+export const uploadFile = ({
+  bucketName, filePath, data, metadata
+}) => {
   const params = {
     Bucket: bucketName,
     Key: filePath,
@@ -27,7 +29,7 @@ export const uploadFile = ({ bucketName, filePath, data, metadata }) => {
   };
 
   return s3.putObject(params).promise();
-}
+};
 
 export const removeFile = ({ bucketName, filePath }) => {
   const params = {
@@ -36,4 +38,4 @@ export const removeFile = ({ bucketName, filePath }) => {
   };
 
   return s3.deleteObject(params).promise();
-}
+};

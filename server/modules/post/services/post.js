@@ -7,11 +7,11 @@ export const paginate = async (options) => {
     Post.find(filter).populate('user').populate('category').populate('tags')
       .skip(skip)
       .limit(limit),
-    Post.count(filter)
+    Post.count(filter),
   ]);
 
   return {
     total,
     items,
-  }
-}
+  };
+};

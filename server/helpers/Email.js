@@ -11,8 +11,8 @@ export const send = (template, to, subject, locals) => {
     secureConnection: emailConfig.ssl,
     auth: {
       user: emailConfig.user,
-      pass: emailConfig.password
-    }
+      pass: emailConfig.password,
+    },
   });
   const templateDir = path.join(__dirname, '../', 'templates');
   const email = new Email({
@@ -24,7 +24,7 @@ export const send = (template, to, subject, locals) => {
         extension: 'ejs',
       },
       root: templateDir,
-    }
+    },
   });
 
   return email.send({
@@ -35,5 +35,5 @@ export const send = (template, to, subject, locals) => {
       subject,
     },
     locals,
-  })
-}
+  });
+};

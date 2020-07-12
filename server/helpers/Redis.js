@@ -5,7 +5,7 @@ import { host, port, dbIndex } from '../config/redis';
 const clientRedis = redis.createClient({
   port,
   host,
-  db: dbIndex
+  db: dbIndex,
 });
 
 export const set = util.promisify(clientRedis.set).bind(clientRedis);

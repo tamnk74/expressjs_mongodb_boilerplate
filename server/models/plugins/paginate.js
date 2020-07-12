@@ -29,7 +29,8 @@ const paginate = (schema) => {
     const skip = (page - 1) * limit;
 
     const countPromise = this.countDocuments(filter).exec();
-    const docsPromise = this.find(filter).sort(sort).skip(skip).limit(limit).exec();
+    const docsPromise = this.find(filter).sort(sort).skip(skip).limit(limit)
+      .exec();
 
     return Promise.all([countPromise, docsPromise]).then((values) => {
       const [totalResults, results] = values;

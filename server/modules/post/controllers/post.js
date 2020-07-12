@@ -1,4 +1,3 @@
-import uuid from 'uuid';
 import Post from '../../../models/post';
 import * as postService from '../services/post';
 import { getPostSerializer } from '../serializer';
@@ -17,18 +16,16 @@ export default class PostController {
       const result = await postService.paginate({
         ...req.query,
         skip: pagination.skip,
-        limit: pagination.limit
+        limit: pagination.limit,
       });
 
-      pagination.setOriginalUrl(`${req.protocol}://${req.get('host')}${req.originalUrl}`)
-        .setTotal(result.total);
+      pagination.setOriginalUrl(`${req.protocol}://${req.get('host')}${req.originalUrl}`).setTotal(result.total);
       const meta = pagination.getMeta();
       const links = pagination.getLinks();
 
       return res.status(200).json(getPostSerializer(links, meta).serialize(result.items));
-    }
-    catch (err) {
-      return next(err)
+    } catch (err) {
+      return next(err);
     }
   };
 
@@ -41,7 +38,7 @@ export default class PostController {
 
       return res.status(200).json(postSerializer.serialize(post));
     } catch (err) {
-      return next(err)
+      return next(err);
     }
   };
   /**
@@ -50,19 +47,18 @@ export default class PostController {
   create = async (req, res, next) => {
     try {
       const post = new Post({
-        id: uuid.v4(),
         name: req.body.name,
         startDate: req.body.startDate,
         dueDate: req.body.dueDate,
         description: req.body.description,
-        user: req.user._id
+        user: req.user._id,
       });
 
       const result = await post.save();
 
       return res.status(201).json(postSerializer.serialize(result));
     } catch (err) {
-      return next(err)
+      return next(err);
     }
   };
   /**
@@ -81,7 +77,7 @@ export default class PostController {
 
       return res.status(204).json({});
     } catch (err) {
-      return next(err)
+      return next(err);
     }
   };
   /**
@@ -89,13 +85,11 @@ export default class PostController {
    */
   delete = async (req, res, next) => {
     try {
-      const { post } = req;
-
       await Post.findByIdAndRemove(req.params.id);
 
       return res.status(204).json({});
     } catch (err) {
-      return next(err)
+      return next(err);
     }
   };
 }

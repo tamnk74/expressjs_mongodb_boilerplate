@@ -13,11 +13,11 @@ class AuthService {
     return {
       user: {
         id: user.id,
-        name: user.name
+        name: user.name,
       },
-      token
+      token,
     };
-  }
+  };
 }
 
 export default AuthService;

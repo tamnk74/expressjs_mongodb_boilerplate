@@ -9,16 +9,12 @@ class AnalysisService {
     //   publishDate: new Date('2017-02-02')
     // });
     // console.log(res);
-    const aggregate = await Post.aggregate([
-      { $project: { title: 1, view: 1 } },
-      { $skip: 5 },
-      { $limit: 10 }
-    ]);
+    const aggregate = await Post.aggregate([{ $project: { title: 1, view: 1 } }, { $skip: 5 }, { $limit: 10 }]);
     return {
       total: aggregate.length,
       aggregate,
-    }
-  }
+    };
+  };
 }
 
 export default AnalysisService;

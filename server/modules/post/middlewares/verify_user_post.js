@@ -1,6 +1,6 @@
-import Post from '../../../models/post';
-import { errorFactory } from '../../../errors'
 import { Types } from 'mongoose';
+import Post from '../../../models/post';
+import { errorFactory } from '../../../errors';
 
 export const verifyUserPost = async function (req, res, next) {
   try {
@@ -20,4 +20,4 @@ export const verifyUserPost = async function (req, res, next) {
   } catch (err) {
     return next(err);
   }
-}
+};

@@ -4,7 +4,6 @@ import { eventSerializer } from '../serializer';
 import { errorFactory } from '../../../errors';
 const LIMIT = 5;
 
-
 export default class EventController {
   /**
    * Paginate event
@@ -12,14 +11,14 @@ export default class EventController {
   index = async (req, res, next) => {
     try {
       const { page = 1, limit = LIMIT } = req.query;
-      const events = await Event.find().populate('user')
-        .skip((limit * page) - limit)
+      const events = await Event.find()
+        .populate('user')
+        .skip(limit * page - limit)
         .limit(+limit);
 
       return res.status(200).json(eventSerializer.serialize(events));
-    }
-    catch (err) {
-      return next(err)
+    } catch (err) {
+      return next(err);
     }
   };
   /**
@@ -29,14 +28,13 @@ export default class EventController {
     try {
       const { page = 1, limit = LIMIT } = req.query;
       const events = await Event.find({
-        dueDate: { $lte: new Date() }
+        dueDate: { $lte: new Date() },
       })
-        .skip((limit * page) - limit)
+        .skip(limit * page - limit)
         .limit(limit);
       return res.status(200).json(eventSerializer.serialize(events));
-    }
-    catch (err) {
-      return next(err)
+    } catch (err) {
+      return next(err);
     }
   };
   /**
@@ -48,7 +46,7 @@ export default class EventController {
 
       return res.status(200).json(eventSerializer.serialize(event));
     } catch (err) {
-      return next(err)
+      return next(err);
     }
   };
   /**
@@ -62,14 +60,14 @@ export default class EventController {
         startDate: req.body.startDate,
         dueDate: req.body.dueDate,
         description: req.body.description,
-        user: req.user._id
+        user: req.user._id,
       });
 
       const result = await event.save();
 
       return res.status(201).json(eventSerializer.serialize(result));
     } catch (err) {
-      return next(err)
+      return next(err);
     }
   };
   /**
@@ -88,7 +86,7 @@ export default class EventController {
 
       return res.status(204).json({});
     } catch (err) {
-      return next(err)
+      return next(err);
     }
   };
   /**
@@ -102,7 +100,7 @@ export default class EventController {
 
       return res.status(204).json({});
     } catch (err) {
-      return next(err)
+      return next(err);
     }
   };
 }

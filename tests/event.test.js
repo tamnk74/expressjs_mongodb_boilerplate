@@ -4,12 +4,11 @@ const app = require('../index');
 
 var auth = {};
 beforeEach(async () => {
-  const response = await request(app).post('/api/auth/login')
-    .send({
-      name: 'tamnk',
-      password: '123456'
-    });
-  const data = JSON.parse(response.text)
+  const response = await request(app).post('/api/auth/login').send({
+    name: 'tamnk',
+    password: '123456',
+  });
+  const data = JSON.parse(response.text);
   auth = data.data;
 });
 describe('sample test', () => {
@@ -32,7 +31,7 @@ describe('## event auth', () => {
         .post('/api/auth/login')
         .send({
           name: 'tamnk',
-          password: '123456'
+          password: '123456',
         })
         .expect(httpStatus.OK)
         .then(() => {
@@ -44,8 +43,8 @@ describe('## event auth', () => {
       request(app)
         .post('/api/auth/login')
         .send({
-          "name": "tamnk",
-          "password": "1234576"
+          name: 'tamnk',
+          password: '1234576',
         })
         .expect(httpStatus.INTERNAL_SERVER_ERROR)
         .then(() => {
@@ -69,7 +68,7 @@ describe('## event auth', () => {
         request(app)
           .post('/api/users')
           .send({
-            mobileNumber: '1234567890'
+            mobileNumber: '1234567890',
           })
           .expect(httpStatus.INTERNAL_SERVER_ERROR)
           .then((res) => {

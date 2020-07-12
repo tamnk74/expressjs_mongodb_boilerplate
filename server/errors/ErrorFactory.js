@@ -7,7 +7,7 @@ class ErrorFactory {
     // Handle defined error code
     const originalError = error;
     if (!error) {
-      error = errors[errorCode]
+      error = errors[errorCode];
     }
     // Handle undefined error code
     if (!error) {
@@ -17,7 +17,10 @@ class ErrorFactory {
     }
     // Handle Joi error
     if (error && error.isJoi) {
-      const { type, context: { key } } = error;
+      const {
+        type,
+        context: { key },
+      } = error;
       errorCode = joiErrors[`${key}.${type}`];
       error = errors[errorCode] || error;
       error.code = errorCode;
@@ -29,13 +32,13 @@ class ErrorFactory {
         ...error,
         status: 500,
         code: 'ERR-0500',
-      }
+      };
       error.detail = originalError.message || error.detail;
     }
     error.code = errorCode || error.code;
 
     return new ApiError(error);
-  }
+  };
 }
 
 export default ErrorFactory;

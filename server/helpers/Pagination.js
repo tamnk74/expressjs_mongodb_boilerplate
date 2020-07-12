@@ -1,5 +1,4 @@
 class Pagination {
-
   constructor(query) {
     const { page = 1, limit = 10, ...options } = query;
     this.page = parseInt(page, 10) > 0 ? parseInt(page, 10) : 1;
@@ -8,6 +7,7 @@ class Pagination {
     this.options = options;
     this.originalUrl = '';
   }
+
   setOriginalUrl(url) {
     if (!/page=([-|+]*\d*)?/.test(url)) {
       const operator = url.includes('?') ? (url.endsWith('?') ? '' : '&') : '?';
@@ -36,17 +36,15 @@ class Pagination {
       last: this.parseUrl(this.lastPage),
       prev: this.parseUrl(this.prevPage),
       next: this.parseUrl(this.nextPage),
-      self: this.parseUrl(this.page)
+      self: this.parseUrl(this.page),
     };
   }
 
   getMeta() {
     return {
-      totalPages: this.lastPage
+      totalPages: this.lastPage,
     };
   }
-
 }
 
 export default Pagination;
-

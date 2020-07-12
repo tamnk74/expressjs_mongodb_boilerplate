@@ -1,5 +1,5 @@
-import { authService } from '../services'
-import { authSerializer } from '../serializer'
+import { authService } from '../services';
+import { authSerializer } from '../serializer';
 
 class AuthController {
   login = async (req, res, next) => {

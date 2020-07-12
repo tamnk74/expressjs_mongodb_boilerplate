@@ -1,7 +1,7 @@
 import JsonWebToken from 'jsonwebtoken';
 // import path from 'path';
 // import fs from 'fs';
-import { jwtExpireTime, jwtSecretKey } from '../config'
+import { jwtExpireTime, jwtSecretKey } from '../config';
 
 // const publicKey = fs.readFileSync(path.resolve(__dirname, '..', 'config', 'cert', 'public.key'), 'utf8');
 // const privateKey = fs.readFileSync(path.resolve(__dirname, '..', 'config', 'cert', 'private.key'), 'utf8');
@@ -10,7 +10,7 @@ const verifyOptions = {
   subject: 'khac.tam.94@gmail.com',
   audience: 'localhost',
   expiresIn: jwtExpireTime,
-  algorithm: 'RS256'
+  algorithm: 'RS256',
 };
 
 export default class JWT {
@@ -40,7 +40,7 @@ export default class JWT {
   static generateToken(payload) {
     return JsonWebToken.sign(payload, jwtSecretKey, {
       expiresIn: jwtExpireTime,
-      issuer: 'tamnk74@gmail.com'
+      issuer: 'tamnk74@gmail.com',
     });
   }
 

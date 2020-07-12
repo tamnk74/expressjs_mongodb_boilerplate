@@ -1,4 +1,4 @@
-import { analysisService } from '../services'
+import { analysisService } from '../services';
 
 class AnalysisController {
   index = async (req, res, next) => {

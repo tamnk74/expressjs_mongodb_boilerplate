@@ -1,6 +1,6 @@
 import uuid from 'uuid';
 import User from '../../../models/user.js';
-import { userSerializer } from '../serializer'
+import { userSerializer } from '../serializer';
 
 export default class UserController {
   /**
@@ -21,7 +21,7 @@ export default class UserController {
     try {
       const user = new User({
         name: req.body.name,
-        password: req.body.password
+        password: req.body.password,
       });
       const result = await user.save();
 
@@ -62,11 +62,15 @@ export default class UserController {
    */
   update = async (req, res, next) => {
     try {
-      await User.findByIdAndUpdate(req.params.id, Object.assign(
-        { id: uuid.v4() },
-        req.body.name ? { name: req.body.name } : {},
-        req.body.password ? { password: req.body.password } : {}
-      ), { new: true });
+      await User.findByIdAndUpdate(
+        req.params.id,
+        Object.assign(
+          { id: uuid.v4() },
+          req.body.name ? { name: req.body.name } : {},
+          req.body.password ? { password: req.body.password } : {}
+        ),
+        { new: true }
+      );
 
       return res.status(204).json({});
     } catch (err) {
@@ -79,7 +83,7 @@ export default class UserController {
    */
   delete = async (req, res, next) => {
     try {
-      await User.findByIdAndRemove(req.params.id)
+      await User.findByIdAndRemove(req.params.id);
 
       return res.status(200).json({});
     } catch (err) {
