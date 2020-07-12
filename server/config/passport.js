@@ -1,11 +1,10 @@
 import passport from 'passport';
 import { Strategy as JWTstrategy, ExtractJwt } from 'passport-jwt';
-import { jwtSecretKey } from './index'
+import { jwtSecretKey } from '.'
 
 const jwtOpts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: jwtSecretKey,
-  issuer: 'tamnk74@gmail.com',
+  secretOrKey: jwtSecretKey
 }
 
 passport.use(new JWTstrategy(jwtOpts, (jwtPayload, done) => {
