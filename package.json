@@ -35,9 +35,9 @@
   },
   "scripts": {
     "build": "babel  ./ -d dist/",
-    "start": "nodemon --exec babel-node ./bin/www",
-    "pm2:start": "pm2 start ./bin/www --name blog",
-    "pm2:stop": "pm2 stop ./bin/www",
+    "start": "nodemon --exec babel-node index.js",
+    "pm2:start": "pm2 start index.js --name blog",
+    "pm2:stop": "pm2 stop index.js",
     "watch": "nodemon",
     "clean": "rimraf dist",
     "lint": "eslint .",
