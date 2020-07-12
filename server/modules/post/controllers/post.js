@@ -2,8 +2,6 @@ import uuid from 'uuid';
 import Post from '../../../models/post';
 import { postSerializer } from '../serializer';
 import { errorFactory } from '../../../errors';
-const LIMIT = 5;
-
 
 export default class PostController {
   /**
@@ -11,12 +9,9 @@ export default class PostController {
    */
   index = async (req, res, next) => {
     try {
-      const { page = 1, limit = LIMIT } = req.query;
-      const posts = await Post.find().populate('user')
-        .skip((limit * page) - limit)
-        .limit(+limit);
-
-      return res.status(200).json(postSerializer.serialize(posts));
+      const posts = await Post.paginate({}, req.query);
+      console.log(posts);
+      return res.status(200).json(postSerializer.serialize(posts.results));
     }
     catch (err) {
       return next(err)

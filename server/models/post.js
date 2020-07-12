@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const findOrCreate = require('./plugins/findOrCreate');
+const paginate = require('./plugins/paginate');
 const { stringToSlug } = require('../helpers/Util');
 
 const PostSchema = new mongoose.Schema({
@@ -52,6 +53,7 @@ const PostSchema = new mongoose.Schema({
 })
 
 PostSchema.plugin(findOrCreate);
+PostSchema.plugin(paginate);
 
 PostSchema.pre('save', function (next) {
   const post = this;
