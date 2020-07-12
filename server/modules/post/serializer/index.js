@@ -8,6 +8,16 @@ export const getPostSerializer = (links, meta) =>
       attributes: ['id', 'name'],
       keyForAttribute: 'snake_case',
     },
+    category: {
+      ref: 'id',
+      attributes: ['id', 'name'],
+      keyForAttribute: 'snake_case',
+    },
+    tags: {
+      ref: 'id',
+      attributes: ['id', 'name'],
+      keyForAttribute: 'snake_case',
+    },
     meta,
     topLevelLinks: links,
     keyForAttribute: 'snake_case',

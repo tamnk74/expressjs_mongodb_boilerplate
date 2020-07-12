@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('./tag');
 const findOrCreate = require('./plugins/findOrCreate');
 const paginate = require('./plugins/paginate');
 const { stringToSlug } = require('../helpers/Util');
@@ -21,6 +22,12 @@ const PostSchema = new mongoose.Schema(
         unique: true,
       },
     },
+    tags: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tag',
+      },
+    ],
     slug: {
       type: String,
       required: true,
