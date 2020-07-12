@@ -1,3 +1,24 @@
-NODE_ENV=develop
+NODE_ENV=development
+PORT=3000
+
+BASE_URL=http://localhost:3000
+APP_URL=http://localhost:3000
+
+# jsonwebtoken config
 JWT_SECRET=node-app
 JWT_EXPIRED_LOGIN=604800
+
+# mongodb config
+MONGODB_URI=
+
+# other config
+GOOGLE_ID=
+GOOGLE_SECRET=
+
+TWITTER_KEY=
+TWITTER_SECRET=
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+STRIPE_SECRET_KEY=

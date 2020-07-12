@@ -11,8 +11,8 @@ import 'regenerator-runtime/runtime';
 import { env, dbConfig } from './config';
 import { WebRouter, ApiRouter } from './routes';
 import { handleError } from './errors';
+import './config/passport';
 import './schedulers/show-time';
-import { required } from './modules/user/schemas/login';
 
 // Set up the express app
 const app = Express();
