@@ -1,16 +1,18 @@
+// import 'core-js/stable';
+// import 'regenerator-runtime/runtime';
 import Express from 'express';
 import Morgan from 'morgan';
 import CORS from 'cors';
 import BodyParser from 'body-parser';
 import Compress from 'compression';
 import Path from 'path';
-import mongoose from 'mongoose';
 import passport from 'passport';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import { env, dbConfig } from './config';
+
+import { env } from './config';
 import { WebRouter, ApiRouter } from './routes';
 import { handleError } from './errors';
+
+import './database';
 import './config/passport';
 import './schedulers/show-time';
 
@@ -40,19 +42,6 @@ app.set('view engine', 'ejs');
 
 // set path for static assets
 app.use(Express.static(Path.join(__dirname, 'server/public')));
-
-// Configuring the database
-mongoose.Promise = global.Promise;
-
-// Connecting to the database
-mongoose.connect(dbConfig.URL, {
-  useNewUrlParser: true
-}).then(() => {
-  console.log('Successfully connected to the database');
-}).catch((err) => {
-  console.log('Could not connect to the database. Exiting now...', err);
-  process.exit();
-});
 
 app.use('/api', ApiRouter);
 app.use('/', WebRouter);
