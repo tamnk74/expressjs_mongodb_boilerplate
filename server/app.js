@@ -1,11 +1,11 @@
 // import 'core-js/stable';
 // import 'regenerator-runtime/runtime';
-import Express from 'express';
-import Morgan from 'morgan';
-import CORS from 'cors';
-import BodyParser from 'body-parser';
-import Compress from 'compression';
-import Path from 'path';
+import express from 'express';
+import morgan from 'morgan';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import compression from 'compression';
+import path from 'path';
 import passport from 'passport';
 
 import { env } from './config';
@@ -17,31 +17,31 @@ import './config/passport';
 import './schedulers/show-time';
 
 // Set up the express app
-const app = Express();
+const app = express();
 
 // Allow cors
-app.use(CORS());
+app.use(cors());
 
 // Parse incoming requests data
-app.use(BodyParser.json());
-app.use(BodyParser.urlencoded({ extended: false }));
-app.use(Compress());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(compression());
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(Express.static(Path.resolve(__dirname, 'server', 'public'), { maxAge: 31557600000 }));
+app.use(express.static(path.resolve(__dirname, 'server', 'public'), { maxAge: 31557600000 }));
 
 if (env !== 'product') {
-  app.use(Morgan('dev'));
+  app.use(morgan('dev'));
 }
 
 // view engine setup
-app.set('views', Path.join(__dirname, 'server/views'));
+app.set('views', path.join(__dirname, 'server/views'));
 app.set('view engine', 'ejs');
 
 // set path for static assets
-app.use(Express.static(Path.join(__dirname, 'server/public')));
+app.use(express.static(path.join(__dirname, 'server/public')));
 
 app.use('/api', apiRouter);
 app.use('/', webRouter);

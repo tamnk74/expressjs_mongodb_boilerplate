@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 require('./tag');
+require('./category');
 require('./comment');
 const findOrCreate = require('./plugins/findOrCreate');
 const paginate = require('./plugins/paginate');
+const toJSON = require('./plugins/toJSON');
 const { stringToSlug } = require('../helpers/Util');
 
 const PostSchema = new mongoose.Schema(
@@ -66,6 +68,7 @@ const PostSchema = new mongoose.Schema(
 
 PostSchema.plugin(findOrCreate);
 PostSchema.plugin(paginate);
+PostSchema.plugin(toJSON);
 
 PostSchema.pre('save', function save(next) {
   const post = this;
@@ -73,7 +76,7 @@ PostSchema.pre('save', function save(next) {
   // only hash the password if it has been modified (or is new)
   if (!post.isModified('title')) return next();
 
-  post.slug = stringToSlug(post.title) + Date.now() / 1000;
+  post.slug = stringToSlug(post.title) + Math.trunc(Date.now() / 1000);
   next();
 });
 

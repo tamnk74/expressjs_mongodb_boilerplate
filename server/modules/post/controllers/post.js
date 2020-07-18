@@ -49,16 +49,16 @@ export default class PostController {
   create = async (req, res, next) => {
     try {
       const post = new Post({
-        name: req.body.name,
-        startDate: req.body.startDate,
-        dueDate: req.body.dueDate,
-        description: req.body.description,
-        user: req.user._id,
+        slug: req.body.title,
+        title: req.body.title,
+        content: req.body.content,
+        category: req.body.category_id,
+        user: req.user.id,
       });
 
-      const result = await post.save();
-
-      return res.status(201).json(postSerializer.serialize(result));
+      const newPost = await post.save();
+      console.log(newPost);
+      return res.status(201).json(postSerializer.serialize(newPost.toJSON()));
     } catch (err) {
       return next(err);
     }

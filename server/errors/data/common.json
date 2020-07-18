@@ -26,7 +26,7 @@
   },
   "ERR-0500": {
     "status": 500,
-    "title": "Internal Server title",
-    "detail": "Internal Server title"
+    "title": "Internal Server Error",
+    "detail": "Internal Server Error"
   }
 }

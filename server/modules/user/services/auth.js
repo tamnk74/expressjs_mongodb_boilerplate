@@ -3,19 +3,18 @@ import { errorFactory } from '../../../errors';
 import jwt from '../../../helpers/JWT';
 
 class AuthService {
-  authenticate = async ({ name, password }) => {
-    const user = await User.findOne({ name });
+  authenticate = async ({ email, password }) => {
+    const user = await User.findOne({ email });
+
     if (!user.comparePassword(password)) {
       throw errorFactory.getError('LOG-0001');
     }
 
-    const token = jwt.generateToken({ user: { id: user.id } });
+    const accessToken = jwt.generateToken({ user: { id: user.id } });
+
     return {
-      user: {
-        id: user.id,
-        name: user.name,
-      },
-      token,
+      tokenType: 'bearer',
+      accessToken,
     };
   };
 }

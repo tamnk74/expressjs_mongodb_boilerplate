@@ -1,6 +1,6 @@
 import HttpStatus from 'http-status';
 import Validation from 'express-validation';
-import APIError from '../helpers/ApiError';
+import APIError from '../errors/ApiError';
 import { env } from '../config';
 
 class Error {
