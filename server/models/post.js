@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 require('./tag');
+require('./comment');
 const findOrCreate = require('./plugins/findOrCreate');
 const paginate = require('./plugins/paginate');
 const { stringToSlug } = require('../helpers/Util');
@@ -38,6 +39,7 @@ const PostSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
+      maxlength: 1024,
     },
     content: {
       type: String,
@@ -73,6 +75,21 @@ PostSchema.pre('save', function (next) {
 
   post.slug = stringToSlug(post.title) + Date.now() / 1000;
   next();
+});
+
+// Cascade delete comments when a post is deleted
+PostSchema.pre('remove', async function (next) {
+  console.log(`Comment being removed from post ${this._id}`);
+  await this.model('Comment').deleteMany({ post: this._id });
+  next();
+});
+
+// Reverse populate with virtuals
+PostSchema.virtual('comments', {
+  ref: 'Comment',
+  localField: '_id',
+  foreignField: 'postId',
+  justOne: false,
 });
 
 const Post = mongoose.model('Post', PostSchema);

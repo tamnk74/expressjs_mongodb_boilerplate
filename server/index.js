@@ -7,8 +7,8 @@ const Path = require('path');
 global.__rootDir = Path.resolve(__dirname, '..');
 
 const Http = require('http');
-const { port, env } = require('./server/config');
-const app = require('./server/app.js');
+const { port, env } = require('./config');
+const app = require('./app.js');
 
 /**
  * Get port from environment and store in Express.

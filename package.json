@@ -34,8 +34,9 @@
     "regenerator-runtime": "^0.13.3"
   },
   "scripts": {
-    "build": "babel  ./ -d dist/",
-    "start": "nodemon --exec babel-node index.js",
+    "build": "babel  ./server --out-dir dist --copy-files",
+    "server": "node  ./dist/index.js",
+    "start": "nodemon --exec babel-node .src/index.js",
     "pm2:start": "pm2 start index.js --name blog",
     "pm2:stop": "pm2 stop index.js",
     "watch": "nodemon",
