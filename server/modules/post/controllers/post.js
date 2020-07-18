@@ -1,7 +1,6 @@
 import Post from '../../../models/post';
 import * as postService from '../services/post';
 import { getPostSerializer } from '../serializer';
-import { errorFactory } from '../../../errors';
 import Pagination from '../../../helpers/Pagination';
 
 const postSerializer = getPostSerializer();
@@ -19,7 +18,9 @@ export default class PostController {
         limit: pagination.limit,
       });
 
-      pagination.setOriginalUrl(`${req.protocol}://${req.get('host')}${req.originalUrl}`).setTotal(result.total);
+      pagination
+        .setOriginalUrl(`${req.protocol}://${req.get('host')}${req.originalUrl}`)
+        .setTotal(result.total);
       const meta = pagination.getMeta();
       const links = pagination.getLinks();
 
@@ -41,6 +42,7 @@ export default class PostController {
       return next(err);
     }
   };
+
   /**
    * Add new post
    */
@@ -61,6 +63,7 @@ export default class PostController {
       return next(err);
     }
   };
+
   /**
    * Update an post
    */
@@ -80,6 +83,7 @@ export default class PostController {
       return next(err);
     }
   };
+
   /**
    * Delete an post
    */

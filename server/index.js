@@ -7,8 +7,28 @@ const Path = require('path');
 global.__rootDir = Path.resolve(__dirname, '..');
 
 const Http = require('http');
-const { port, env } = require('./server/config');
-const app = require('./server/app.js');
+const { port, env } = require('./config');
+const app = require('./app.js');
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  const port = parseInt(val, 10);
+
+  if (Number.isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
 
 /**
  * Get port from environment and store in Express.
@@ -26,30 +46,6 @@ const server = Http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-
-server.listen(normalPort);
-server.on('error', onError);
-server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val) {
-  const port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
 
 /**
  * Event listener for HTTP server "error" event.
@@ -86,3 +82,7 @@ function onListening() {
   const bind = typeof address === 'string' ? `pipe ${address}` : `port ${address.port}`;
   console.log(`Listening on ${bind} ${env}`);
 }
+
+server.listen(normalPort);
+server.on('error', onError);
+server.on('listening', onListening);

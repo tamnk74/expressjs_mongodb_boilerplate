@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import Email from 'email-templates';
 import path from 'path';
-import { email as emailConfig } from '../config';
+import * as emailConfig from '../config/email';
 
 export const send = (template, to, subject, locals) => {
   const transport = nodemailer.createTransport({

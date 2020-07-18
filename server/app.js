@@ -9,7 +9,7 @@ import Path from 'path';
 import passport from 'passport';
 
 import { env } from './config';
-import { WebRouter, ApiRouter } from './routes';
+import { webRouter, apiRouter } from './routes';
 import { handleError } from './errors';
 
 import './database';
@@ -43,8 +43,8 @@ app.set('view engine', 'ejs');
 // set path for static assets
 app.use(Express.static(Path.join(__dirname, 'server/public')));
 
-app.use('/api', ApiRouter);
-app.use('/', WebRouter);
+app.use('/api', apiRouter);
+app.use('/', webRouter);
 
 /**
  * Error Handler.

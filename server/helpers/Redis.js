@@ -1,11 +1,11 @@
 import redis from 'redis';
 import util from 'util';
-import { host, port, dbIndex } from '../config/redis';
+import { host, port, db } from '../config/redis';
 
 const clientRedis = redis.createClient({
   port,
   host,
-  db: dbIndex,
+  db,
 });
 
 export const set = util.promisify(clientRedis.set).bind(clientRedis);

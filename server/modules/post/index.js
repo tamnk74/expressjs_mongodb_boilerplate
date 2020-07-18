@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import { auth } from '../../middlewares';
 import { postController } from './controllers';
-import { createPostValidation, updatePostValidation, verifyUserPost } from './middlewares';
+import { createPostValidation, updatePostValidation, verifyUserPostMw } from './middlewares';
 
 const router = Router();
-router.route('/posts').get(auth, postController.index);
-router.route('/posts/').post(auth, createPostValidation, postController.create);
-router.route('/posts/:id').get(auth, verifyUserPost, postController.show);
-router.route('/posts/:id').patch(auth, updatePostValidation, verifyUserPost, postController.update);
-router.route('/posts/:id').delete(auth, verifyUserPost, postController.delete);
+router.get('/posts', auth, postController.index);
+router.post('/posts/', auth, createPostValidation, postController.create);
+router.get('/posts/:id', auth, verifyUserPostMw, postController.show);
+router.patch('/posts/:id', updatePostValidation, verifyUserPostMw, postController.update);
+router.delete('/posts/:id', auth, verifyUserPostMw, postController.delete);
 
 export default router;

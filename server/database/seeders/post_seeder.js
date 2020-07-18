@@ -25,7 +25,7 @@ const posts = [
   },
 ];
 
-module.exports = async function () {
+module.exports = async () => {
   const [, user] = await User.findOrCreate(userData.filter, userData.data);
   console.log(user);
   const results = await Promise.all(
@@ -33,7 +33,8 @@ module.exports = async function () {
       Post.findOrCreate(post.filter, {
         user: user._id,
         ...post.data,
-      }))
+      })
+    )
   );
   return results.map((item) => item[1]);
 };

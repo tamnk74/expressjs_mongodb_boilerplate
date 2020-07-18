@@ -1,19 +1,36 @@
 import Post from '../../../models/post';
-import { errorFactory } from '../../../errors';
 
 class AnalysisService {
-  statistic = async ({ from, to }) => {
-    // const res = await Post.updateMany({ title: /^[k|l|m]\// }, {
-    //   status: 'published',
-    //   publishDate: new Date('2017-02-02')
-    // });
-    // console.log(res);
-    const posts = await Post.aggregate([
-      { $project: { createdAt: 0, updatedAt: 0, slug: 0, __v: 0 } },
-      { $skip: 2 },
-      { $limit: 2 },
+  statistic = async () => {
+    const posts = await this.getPosts();
+    return {
+      total: posts.length,
+      posts,
+    };
+  };
+
+  getPosts = async (skip = 0, limit = 10) =>
+    Post.aggregate([
+      {
+        $addFields: {
+          description: { $substr: ['$content', 0, 100] },
+        },
+      },
+      {
+        $project: {
+          createdAt: 0,
+          updatedAt: 0,
+          slug: 0,
+          __v: 0,
+          content: 0,
+        },
+      },
+      { $skip: skip },
+      { $limit: limit },
     ]);
-    const hotPosts = await Post.aggregate([
+
+  popularPost = async () =>
+    Post.aggregate([
       {
         $match: {
           view: {
@@ -25,7 +42,9 @@ class AnalysisService {
         $count: 'total',
       },
     ]);
-    const categories = await Post.aggregate([
+
+  groupByCategory = async () =>
+    Post.aggregate([
       {
         $group: {
           _id: '$category',
@@ -47,12 +66,6 @@ class AnalysisService {
         },
       },
     ]);
-    return {
-      total: posts.length,
-      hotPosts: hotPosts.total,
-      categories,
-    };
-  };
 }
 
 export default AnalysisService;

@@ -9,3 +9,8 @@ export const eventSerializer = new JSONAPISerializer('events', {
   },
   keyForAttribute: 'snake_case',
 });
+
+export const simpleEventSerializer = new JSONAPISerializer('events', {
+  attributes: ['id', 'name', 'startDate', 'dueDate'],
+  keyForAttribute: 'snake_case',
+});

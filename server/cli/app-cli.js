@@ -2,8 +2,6 @@
 
 const program = require('commander');
 const chalk = require('chalk');
-const { prompt } = require('inquirer');
-const fs = require('fs');
 
 console.log(chalk.blue('APP CLI'));
 

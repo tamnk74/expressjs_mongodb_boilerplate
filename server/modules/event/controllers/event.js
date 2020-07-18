@@ -1,8 +1,5 @@
-import uuid from 'uuid';
 import Event from '../../../models/event';
 import { eventSerializer } from '../serializer';
-import { errorFactory } from '../../../errors';
-const LIMIT = 5;
 
 export default class EventController {
   /**
@@ -10,7 +7,7 @@ export default class EventController {
    */
   index = async (req, res, next) => {
     try {
-      const { page = 1, limit = LIMIT } = req.query;
+      const { page = 1, limit = 5 } = req.query;
       const events = await Event.find()
         .populate('user')
         .skip(limit * page - limit)
@@ -21,12 +18,13 @@ export default class EventController {
       return next(err);
     }
   };
+
   /**
    * Event is already ended
    */
   endedEvent = async (req, res, next) => {
     try {
-      const { page = 1, limit = LIMIT } = req.query;
+      const { page = 1, limit = 5 } = req.query;
       const events = await Event.find({
         dueDate: { $lte: new Date() },
       })
@@ -37,6 +35,7 @@ export default class EventController {
       return next(err);
     }
   };
+
   /**
    * Get one event
    */
@@ -49,13 +48,13 @@ export default class EventController {
       return next(err);
     }
   };
+
   /**
    * Add new event
    */
   create = async (req, res, next) => {
     try {
       const event = new Event({
-        id: uuid.v4(),
         name: req.body.name,
         startDate: req.body.startDate,
         dueDate: req.body.dueDate,
@@ -70,6 +69,7 @@ export default class EventController {
       return next(err);
     }
   };
+
   /**
    * Update an event
    */
@@ -89,13 +89,12 @@ export default class EventController {
       return next(err);
     }
   };
+
   /**
    * Delete an event
    */
   delete = async (req, res, next) => {
     try {
-      const { event } = req;
-
       await Event.findByIdAndRemove(req.params.id);
 
       return res.status(204).json({});

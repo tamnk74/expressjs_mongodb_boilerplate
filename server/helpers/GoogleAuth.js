@@ -1,6 +1,6 @@
 import { OAuth2Client } from 'google-auth-library';
 
-import { googleClientId } from '../config/auth';
+import { googleClientId, googleConfig } from '../config/auth';
 
 const client = new OAuth2Client(googleClientId, '', '');
 

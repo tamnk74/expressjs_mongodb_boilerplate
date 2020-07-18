@@ -19,7 +19,7 @@ const users = [
   },
 ];
 
-module.exports = async function () {
+module.exports = async () => {
   const results = await Promise.all(users.map((user) => User.findOrCreate(user.filter, user.data)));
   return results.map((item) => item[1]);
 };

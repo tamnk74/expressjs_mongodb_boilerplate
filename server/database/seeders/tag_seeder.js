@@ -18,7 +18,7 @@ const tags = [
   },
 ];
 
-module.exports = async function () {
+module.exports = async () => {
   const results = await Promise.all(tags.map((tag) => Tag.findOrCreate(tag, tag)));
   return results.map((item) => item[1]);
 };

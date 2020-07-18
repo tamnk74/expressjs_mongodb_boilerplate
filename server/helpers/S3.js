@@ -18,9 +18,7 @@ export const getObject = ({ bucketName, fileKey }) => {
   return s3.getObject(options).promise();
 };
 
-export const uploadFile = ({
-  bucketName, filePath, data, metadata
-}) => {
+export const uploadFile = ({ bucketName, filePath, data, metadata }) => {
   const params = {
     Bucket: bucketName,
     Key: filePath,

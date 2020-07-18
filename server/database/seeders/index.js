@@ -17,12 +17,11 @@ const postSeeder = require('./post_seeder');
 async function dbseed() {
   try {
     // await seeder.import(collections);
-    const users = await userSeeder();
-    // console.log(users);
-    const categories = await categorySeeder();
-    const tags = await tagSeeder();
+    await userSeeder();
+    await categorySeeder();
+    await tagSeeder();
     // console.log(tags);
-    // const posts = await postSeeder();
+    await postSeeder();
     // console.log(posts);
     console.log('Done seeder!!!');
     process.exit();

@@ -1,12 +1,17 @@
 {
-  "extends": "airbnb-base",
+  "extends": [
+    "airbnb-base",
+    "plugin:prettier/recommended"
+  ],
   "env": {
     "node": true,
     "mocha": true,
     "es6": true
   },
-  "plugins": ["chai-friendly"],
+  "parser": "babel-eslint",
+  "plugins": ["prettier", "chai-friendly"],
   "rules": {
+    "prettier/prettier": "error",
     "comma-dangle": 0,
     "consistent-return": 0,
     "implicit-arrow-linebreak": ["off"],
@@ -15,10 +20,16 @@
     "no-shadow": 0,
     "no-console": 0,
     "no-plusplus": 0,
+    "import/prefer-default-export": 0,
     "no-unused-expressions": 0,
-    "no-unused-vars": ["error", {
-      "argsIgnorePattern": "next"
-    }],
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "next"
+      }
+    ],
+    "newline-per-chained-call": 0,
+    "object-curly-newline": 0,
     "chai-friendly/no-unused-expressions": 2
   }
 }

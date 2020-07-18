@@ -1,5 +1,4 @@
-import uuid from 'uuid';
-import User from '../../../models/user.js';
+import User from '../../../models/user';
 import { userSerializer } from '../serializer';
 
 export default class UserController {
@@ -14,6 +13,7 @@ export default class UserController {
       return next(err);
     }
   };
+
   /**
    * Create new user
    */
@@ -65,7 +65,6 @@ export default class UserController {
       await User.findByIdAndUpdate(
         req.params.id,
         Object.assign(
-          { id: uuid.v4() },
           req.body.name ? { name: req.body.name } : {},
           req.body.password ? { password: req.body.password } : {}
         ),

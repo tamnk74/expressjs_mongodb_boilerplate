@@ -12,7 +12,7 @@ const findOrCreate = (schema) => {
    * @param {Object} [filter] - filter conditions for findOne
    * @param {Object} [data] - data for new instance in case of not found
    */
-  schema.statics.findOrCreate = async function (filter, data) {
+  schema.statics.findOrCreate = async function findOrCreate(filter, data) {
     const instance = await this.findOne(filter);
     if (instance) {
       return [false, instance];
