@@ -1,0 +1,7 @@
+{
+  "POST-0001": {
+    "status": 404,
+    "title": "NOT FOUND",
+    "detail": "Post not found"
+  }
+}

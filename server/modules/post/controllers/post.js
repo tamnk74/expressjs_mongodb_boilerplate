@@ -1,9 +1,10 @@
 import Post from '../../../models/post';
 import * as postService from '../services/post';
-import { getPostSerializer } from '../serializer';
+import { getPostSerializer, getSimplePostSerializer } from '../serializer';
 import Pagination from '../../../helpers/Pagination';
 
 const postSerializer = getPostSerializer();
+const simplePostSerializer = getSimplePostSerializer();
 
 export default class PostController {
   /**
@@ -58,7 +59,7 @@ export default class PostController {
 
       const newPost = await post.save();
       console.log(newPost);
-      return res.status(201).json(postSerializer.serialize(newPost.toJSON()));
+      return res.status(201).json(simplePostSerializer.serialize(newPost));
     } catch (err) {
       return next(err);
     }
