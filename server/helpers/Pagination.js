@@ -10,7 +10,12 @@ class Pagination {
 
   setOriginalUrl(url) {
     if (!/page=([-|+]*\d*)?/.test(url)) {
-      const operator = url.includes('?') ? (url.endsWith('?') ? '' : '&') : '?';
+      let operator = '';
+      if (!url.includes('?')) {
+        operator = '?';
+      } else if (url.endsWith('?')) {
+        operator = '&';
+      }
       url += `${operator}page=1`;
     }
     this.originalUrl = url;

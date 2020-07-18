@@ -2,7 +2,8 @@ import { Types } from 'mongoose';
 import Event from '../../../models/event';
 import { errorFactory } from '../../../errors';
 
-export const verifyUserEvent = async function (req, res, next) {
+// eslint-disable-next-line import/prefer-default-export
+export const verifyUserEvent = async (req, res, next) => {
   try {
     const { id } = req.params;
     if (!Types.ObjectId.isValid(id)) {

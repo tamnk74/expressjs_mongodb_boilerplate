@@ -1,29 +1,36 @@
 import Post from '../../../models/post';
 
 class AnalysisService {
-  statistic = async ({ from, to }) => {
-    let posts = await this.getPosts();
+  statistic = async () => {
+    const posts = await this.getPosts();
     return {
       total: posts.length,
       posts,
     };
   };
 
-  getPosts(skip = 0, limit = 10) {
-    return Post.aggregate([
+  getPosts = async (skip = 0, limit = 10) =>
+    Post.aggregate([
       {
         $addFields: {
           description: { $substr: ['$content', 0, 100] },
         },
       },
-      { $project: { createdAt: 0, updatedAt: 0, slug: 0, __v: 0, content: 0 } },
+      {
+        $project: {
+          createdAt: 0,
+          updatedAt: 0,
+          slug: 0,
+          __v: 0,
+          content: 0,
+        },
+      },
       { $skip: skip },
       { $limit: limit },
     ]);
-  }
 
-  popularPost() {
-    return Post.aggregate([
+  popularPost = async () =>
+    Post.aggregate([
       {
         $match: {
           view: {
@@ -35,10 +42,9 @@ class AnalysisService {
         $count: 'total',
       },
     ]);
-  }
 
-  groupByCategory() {
-    return Post.aggregate([
+  groupByCategory = async () =>
+    Post.aggregate([
       {
         $group: {
           _id: '$category',
@@ -60,7 +66,6 @@ class AnalysisService {
         },
       },
     ]);
-  }
 }
 
 export default AnalysisService;

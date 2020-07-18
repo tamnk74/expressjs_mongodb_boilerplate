@@ -18,7 +18,9 @@ const categorys = [
   },
 ];
 
-module.exports = async function () {
-  const results = await Promise.all(categorys.map((category) => Category.findOrCreate(category, category)));
+module.exports = async () => {
+  const results = await Promise.all(
+    categorys.map((category) => Category.findOrCreate(category, category))
+  );
   return results.map((item) => item[1]);
 };

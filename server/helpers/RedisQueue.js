@@ -1,12 +1,11 @@
-import kue from 'kue';
-import { redis } from '../config';
+import Queue from 'bull';
+import { host, port, db } from '../config/redis';
 
-const queue = kue.createQueue({
-  prefix: queueConfig.prefix,
+const queue = new Queue('Email Queue', {
   redis: {
-    port: redis.port,
-    host: redis.host,
-    db: redis.index,
+    port,
+    host,
+    db,
   },
 });
 queue.setMaxListeners(queue.maxListener);

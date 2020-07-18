@@ -1,5 +1,5 @@
 import DotENV from 'dotenv';
-import DBConfig from './db-config.js';
+import DBConfig from './db-config';
 
 DotENV.config();
 

@@ -2,7 +2,7 @@ import { Types } from 'mongoose';
 import Post from '../../../models/post';
 import { errorFactory } from '../../../errors';
 
-export const verifyUserPost = async function (req, res, next) {
+export default async function (req, res, next) {
   try {
     const { id } = req.params;
     if (!Types.ObjectId.isValid(id)) {
@@ -20,4 +20,4 @@ export const verifyUserPost = async function (req, res, next) {
   } catch (err) {
     return next(err);
   }
-};
+}

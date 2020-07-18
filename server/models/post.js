@@ -67,7 +67,7 @@ const PostSchema = new mongoose.Schema(
 PostSchema.plugin(findOrCreate);
 PostSchema.plugin(paginate);
 
-PostSchema.pre('save', function (next) {
+PostSchema.pre('save', function save(next) {
   const post = this;
 
   // only hash the password if it has been modified (or is new)
@@ -78,7 +78,7 @@ PostSchema.pre('save', function (next) {
 });
 
 // Cascade delete comments when a post is deleted
-PostSchema.pre('remove', async function (next) {
+PostSchema.pre('remove', async function remove(next) {
   console.log(`Comment being removed from post ${this._id}`);
   await this.model('Comment').deleteMany({ post: this._id });
   next();

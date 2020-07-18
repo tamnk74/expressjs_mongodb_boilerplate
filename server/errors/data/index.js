@@ -1,6 +1,6 @@
-import user from './user';
-import event from './event';
-import common from './common';
+import user from './user.json';
+import event from './event.json';
+import common from './common.json';
 
 export default {
   ...common,

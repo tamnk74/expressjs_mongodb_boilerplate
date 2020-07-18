@@ -1,7 +1,5 @@
 import WebRouter from './web';
 import ApiRouter from './api';
 
-module.exports = {
-  WebRouter,
-  ApiRouter,
-};
+export const webRouter = WebRouter;
+export const apiRouter = ApiRouter;
