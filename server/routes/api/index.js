@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import userRouter from '../../modules/user/routes';
-import eventRouter from '../../modules/event/routes';
+import userModule from '../../modules/user';
+import eventModule from '../../modules/event';
 import postModule from '../../modules/post';
 import analysisModule from '../../modules/analysis';
 
 const router = Router();
 
-router.use('/', userRouter);
-router.use('/', eventRouter);
+router.use('/', userModule);
+router.use('/', eventModule);
 router.use('/', postModule);
 router.use('/', analysisModule);
 

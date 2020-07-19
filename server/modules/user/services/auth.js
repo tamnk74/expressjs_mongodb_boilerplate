@@ -6,7 +6,7 @@ class AuthService {
   authenticate = async ({ email, password }) => {
     const user = await User.findOne({ email });
 
-    if (!user.comparePassword(password)) {
+    if (!user || !user.comparePassword(password)) {
       throw errorFactory.getError('LOG-0001');
     }
 

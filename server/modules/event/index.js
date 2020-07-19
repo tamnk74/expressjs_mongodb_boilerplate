@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { auth } from '../../../middlewares';
-import { eventController } from '../controllers';
-import { createEventValidation, updateEventValidation, verifyUserEvent } from '../middlewares';
+import { auth } from '../../middlewares';
+import { eventController } from './controllers';
+import { createEventValidation, updateEventValidation, verifyUserEvent } from './middlewares';
 
 const router = Router();
 
