@@ -3,7 +3,7 @@ services:
   node-app:
     build: .
     image: node-app
-    command: npm start
+    command: npm run dev
     # env_file: .env
     environment:
       - MONGODB_URI=mongodb://mongodb:27017/node-boilerplate
