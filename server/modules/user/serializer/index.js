@@ -10,7 +10,7 @@ export const errorSerializer = new JSONAPISerializer('errors', {
   keyForAttribute: 'snake_case',
 });
 
-export const authSerializer = new JSONAPISerializer('auth', {
-  attributes: ['user', 'token'],
+export const authSerializer = new JSONAPISerializer('tokens', {
+  attributes: ['tokenType', 'accessToken'],
   keyForAttribute: 'snake_case',
 });

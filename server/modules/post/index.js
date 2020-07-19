@@ -7,7 +7,7 @@ const router = Router();
 router.get('/posts', auth, postController.index);
 router.post('/posts/', auth, createPostValidation, postController.create);
 router.get('/posts/:id', auth, verifyUserPostMw, postController.show);
-router.patch('/posts/:id', updatePostValidation, verifyUserPostMw, postController.update);
+router.patch('/posts/:id', auth, updatePostValidation, verifyUserPostMw, postController.update);
 router.delete('/posts/:id', auth, verifyUserPostMw, postController.delete);
 
 export default router;

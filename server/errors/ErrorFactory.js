@@ -1,6 +1,7 @@
 import joiErrors from './joi';
 import errors from './data';
 import ApiError from './ApiError';
+import { env } from '../config';
 
 class ErrorFactory {
   getError = (errorCode, error = null) => {
@@ -38,6 +39,33 @@ class ErrorFactory {
     error.code = errorCode || error.code;
 
     return new ApiError(error);
+  };
+
+  getJoiErrors = (joiErrors = []) => {
+    if (env !== 'production') {
+      console.log(env, joiErrors);
+    }
+    return joiErrors.map((joiError) => {
+      const {
+        type,
+        context: { label: key },
+      } = joiError;
+
+      const code = joiErrors[`${key}.${type}`];
+      const error = errors[code];
+      if (error) {
+        return new ApiError({
+          code,
+          ...error,
+        });
+      }
+
+      // Handle undefined error
+      return new ApiError({
+        code: 'ERR-0422',
+        ...errors['ERR-0422'],
+      });
+    });
   };
 }
 

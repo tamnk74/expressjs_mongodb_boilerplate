@@ -6,13 +6,14 @@ export default async function (req, res, next) {
   try {
     const { id } = req.params;
     if (!Types.ObjectId.isValid(id)) {
-      return next(errorFactory.getError('POST-1001'));
+      return next(errorFactory.getError('POST-0001'));
     }
 
     const post = await Post.findById(id).populate('user');
     const { user } = req;
-    if (!post || post.user._id.toString() !== user._id.toString()) {
-      return next(errorFactory.getError('POST-1001'));
+
+    if (!post || post.user.id.toString() !== user.id.toString()) {
+      return next(errorFactory.getError('POST-0001'));
     }
 
     req.post = post;

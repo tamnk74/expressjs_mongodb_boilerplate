@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
 const findOrCreate = require('./plugins/findOrCreate');
+const toJSON = require('./plugins/toJSON');
 
 const SALT_WORK_FACTOR = 10;
 
@@ -52,9 +53,11 @@ UserSchema.pre('save', function handlePassword(next) {
 });
 
 UserSchema.plugin(findOrCreate);
+UserSchema.plugin(toJSON);
 
-UserSchema.methods.comparePassword = (candidatePassword) =>
-  bcryptjs.compareSync(candidatePassword, this.password);
+UserSchema.methods.comparePassword = function comparePassword(candidatePassword) {
+  return bcryptjs.compareSync(candidatePassword, this.password);
+};
 
 const User = mongoose.model('User', UserSchema);
 User.INACTIVE = 1;

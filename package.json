@@ -43,7 +43,8 @@
   "scripts": {
     "build": "babel  ./server --out-dir dist --copy-files",
     "server": "node  ./dist/index.js",
-    "start": "nodemon --exec babel-node .src/index.js",
+    "start": "nodemon --exec babel-node ./server/index.js",
+    "dev": "nodemon --exec babel-node ./server/index.js",
     "pm2:start": "pm2 start index.js --name blog",
     "pm2:stop": "pm2 stop index.js",
     "watch": "nodemon",
