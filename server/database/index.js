@@ -5,11 +5,7 @@ mongoose.Promise = global.Promise;
 
 // Connecting to the database
 mongoose
-  .connect(dbConfig.URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
+  .connect(dbConfig.URL, dbConfig.options)
   .then(() => {
     console.log('Successfully connected to the database');
   })

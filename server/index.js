@@ -1,15 +1,15 @@
 // This will be our application entry. We'll setup our server here.
 
 require('@babel/polyfill');
+require('./database');
+require('./schedulers/show-time');
 
 const Path = require('path');
-
-global.__rootDir = Path.resolve(__dirname, '..');
-
 const Http = require('http');
 const { port, env } = require('./config');
 const app = require('./app.js');
 
+global.__rootDir = Path.resolve(__dirname, '..');
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -63,11 +63,11 @@ function onError(error) {
     case 'EACCES':
       console.error(`${bind} requires elevated privileges`);
       process.exit(1);
-      break;
+    // eslint-disable-next-line no-fallthrough
     case 'EADDRINUSE':
       console.error(`${bind} is already in use`);
       process.exit(1);
-      break;
+    // eslint-disable-next-line no-fallthrough
     default:
       throw error;
   }

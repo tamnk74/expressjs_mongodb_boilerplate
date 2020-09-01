@@ -12,9 +12,7 @@ import { env } from './config';
 import { webRouter, apiRouter } from './routes';
 import { handleError } from './errors';
 
-import './database';
 import './config/passport';
-import './schedulers/show-time';
 
 // Set up the express app
 const app = express();
