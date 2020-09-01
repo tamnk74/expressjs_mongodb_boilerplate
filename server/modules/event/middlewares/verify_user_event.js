@@ -12,7 +12,8 @@ export const verifyUserEvent = async (req, res, next) => {
 
     const event = await Event.findById(id).populate('user');
     const { user } = req;
-    if (!event || event.user._id.toString() !== user._id.toString()) {
+
+    if (!event || !event.user || event.user.id.toString() !== user.id.toString()) {
       return next(errorFactory.getError('EVEN-1001'));
     }
 
