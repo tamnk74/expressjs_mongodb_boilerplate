@@ -3,13 +3,15 @@ import mongoose from 'mongoose';
 import httpStatus from 'http-status';
 import app from '../../../server/app';
 import setup from '../../setupDatabase';
-import { insertUsers, user } from '../../data/user';
+import { insertUsers, user, userTwo, admin } from '../../data/user';
+import { userAccessToken } from '../../data/token';
 
 setup();
 
+const users = [user, userTwo, admin];
 describe('# Post /api/login', () => {
   beforeAll(async () => {
-    await insertUsers([user]);
+    await insertUsers(users);
   });
 
   it('should return OK when sending correct username and password', async () => {
@@ -19,6 +21,15 @@ describe('# Post /api/login', () => {
     });
 
     expect(statusCode).toBe(httpStatus.OK);
+  });
+
+  it('should return OK when getting user list', async () => {
+    const { statusCode, body } = await request(app)
+      .get('/api/users')
+      .set('Authorization', `Bearer ${userAccessToken}`);
+
+    expect(statusCode).toBe(httpStatus.OK);
+    expect(body.data.length).toBe(users.length);
   });
 
   afterAll(async () => {
