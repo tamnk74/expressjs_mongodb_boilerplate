@@ -2,7 +2,7 @@
   "name": "nodejs-boilerplate",
   "version": "1.0.0",
   "description": "A sample nodejs project with express and mongodb",
-  "main": "index.js",
+  "main": "server/index.js",
   "author": "tamnk74",
   "license": "ISC",
   "dependencies": {
@@ -68,7 +68,6 @@
     "@babel/preset-react": "^7.6.3",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^26.3.0",
-    "chai": "^4.2.0",
     "coveralls": "^3.0.6",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
@@ -83,8 +82,7 @@
     "prettier": "^2.0.5",
     "regenerator-runtime": "^0.13.7",
     "rimraf": "^3.0.0",
-    "supertest": "^4.0.2",
-    "supertest-as-promised": "^4.0.2"
+    "supertest": "^4.0.2"
   },
   "bin": {
     "app-cli": "./server/cli/app-cli.js"

@@ -28,18 +28,16 @@ app.use(compression());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.resolve(__dirname, 'server', 'public'), { maxAge: 31557600000 }));
-
 if (env !== 'product') {
   app.use(morgan('dev'));
 }
 
 // view engine setup
-app.set('views', path.join(__dirname, 'server/views'));
+app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 
 // set path for static assets
-app.use(express.static(path.join(__dirname, 'server/public')));
+app.use(express.static(path.resolve(__dirname, 'public'), { maxAge: 31557600000 }));
 
 app.use('/api', apiRouter);
 app.use('/', webRouter);

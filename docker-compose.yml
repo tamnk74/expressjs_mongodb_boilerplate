@@ -26,13 +26,11 @@ services:
     hostname: mongo
     ports:
       - 27017:27017
-    restart: always
     networks:
       - node-network
   mongo-express:
     image: mongo-express
     container_name: mongo_exporess
-    restart: always
     links:
       - mongodb
     ports:
@@ -48,7 +46,6 @@ services:
     privileged: true
     ports:
       - 6379:6379
-    restart: always
     networks:
       - node-network
 
