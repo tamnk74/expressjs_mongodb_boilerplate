@@ -1,5 +1,5 @@
 import JsonWebToken from 'jsonwebtoken';
-import { jwtExpireTime, jwtSecretKey } from '../config';
+import { jwtExpireTime, jwtSecretKey, jwtRefreshKey, jwtRefreshExpireTime } from '../config';
 
 export default class JWT {
   static getToken(req) {
@@ -26,5 +26,15 @@ export default class JWT {
       expiresIn: jwtExpireTime,
       issuer: 'tamnk74@gmail.com',
     });
+  }
+
+  static generateRefreshToken(userId) {
+    return JsonWebToken.sign({ userId }, jwtRefreshKey, {
+      expiresIn: jwtRefreshExpireTime,
+    });
+  }
+
+  static verifyRefreshToken(refreshToken) {
+    return JsonWebToken.verify(refreshToken, jwtRefreshKey);
   }
 }

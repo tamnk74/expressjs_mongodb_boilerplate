@@ -11,6 +11,6 @@ export const errorSerializer = new JSONAPISerializer('errors', {
 });
 
 export const authSerializer = new JSONAPISerializer('tokens', {
-  attributes: ['tokenType', 'accessToken'],
+  attributes: ['tokenType', 'accessToken', 'refreshToken'],
   keyForAttribute: 'snake_case',
 });

@@ -55,6 +55,17 @@ UserSchema.pre('save', function handlePassword(next) {
 UserSchema.plugin(findOrCreate);
 UserSchema.plugin(toJSON);
 
+UserSchema.methods.toPayload = function toPayload() {
+  return {
+    user: {
+      id: this.id,
+      email: this.email,
+      name: this.name,
+      fullName: this.fullName,
+    },
+  };
+};
+
 UserSchema.methods.comparePassword = function comparePassword(candidatePassword) {
   return bcryptjs.compareSync(candidatePassword, this.password);
 };

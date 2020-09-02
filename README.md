@@ -28,7 +28,7 @@ A sample nodejs project using express and mongo database to help you start your 
 
 ### Run seeder
 
-> node dist/database/seeders/index.js
+> npm run seed
 
 ### Check eslint & prettier
 

@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { authController, userController } from './controllers';
-import { loginValidation } from './middlewares';
+import { loginValidation, refreshTokenValidation } from './middlewares';
 import { auth } from '../../middlewares';
 
 const router = Router();
 
 router.route('/login').post(loginValidation, authController.login);
+router.post('/refresh-token', refreshTokenValidation, authController.refrehToken);
 
 router.route('/users/').get([auth], userController.index);
 router.route('/users').post(userController.create);

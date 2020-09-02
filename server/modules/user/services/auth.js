@@ -1,20 +1,34 @@
 import User from '../../../models/user';
 import { errorFactory } from '../../../errors';
-import jwt from '../../../helpers/JWT';
+import Jwt from '../../../helpers/JWT';
 
 class AuthService {
-  authenticate = async ({ email, password }) => {
+  authenticate = async ({ email = '', password }) => {
     const user = await User.findOne({ email });
-
     if (!user || !user.comparePassword(password)) {
       throw errorFactory.getError('LOG-0001');
     }
 
-    const accessToken = jwt.generateToken({ user: { id: user.id } });
+    const [accessToken, refreshToken] = await Promise.all([
+      Jwt.generateToken(user.toPayload()),
+      Jwt.generateRefreshToken(user.id),
+    ]);
 
     return {
-      tokenType: 'bearer',
       accessToken,
+      refreshToken,
+      tokenType: 'Bearer',
+    };
+  };
+
+  refrehToken = async (refreshToken) => {
+    const payload = await Jwt.verifyRefreshToken(refreshToken);
+    const user = await User.findById(payload.userId);
+    const accessToken = await Jwt.generateToken(user.toPayload());
+
+    return {
+      accessToken,
+      tokenType: 'Bearer',
     };
   };
 }

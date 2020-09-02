@@ -10,6 +10,16 @@ class AuthController {
       next(e);
     }
   };
+
+  refrehToken = async (req, res, next) => {
+    try {
+      const authUser = await authService.refrehToken(req.body.refresh_token);
+
+      return res.status(200).json(authSerializer.serialize(authUser));
+    } catch (e) {
+      return next(e);
+    }
+  };
 }
 
 export default AuthController;
