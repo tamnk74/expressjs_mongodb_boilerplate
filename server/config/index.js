@@ -9,4 +9,9 @@ export const jwtSecretKey = process.env.JWT_SECRET_KEY || 'jwt_secret';
 export const jwtExpireTime = process.env.JWT_EXPIRE_TIME || '1h';
 export const dbConfig = {
   URL: process.env.MONGODB_URI || 'mongodb://mongodb:27017/node-boilerplate',
+  options: {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  },
 };

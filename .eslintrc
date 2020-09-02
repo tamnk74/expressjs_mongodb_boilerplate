@@ -2,11 +2,11 @@
   "extends": ["airbnb-base", "plugin:prettier/recommended"],
   "env": {
     "node": true,
-    "mocha": true,
+    "jest": true,
     "es6": true
   },
   "parser": "babel-eslint",
-  "plugins": ["prettier", "chai-friendly"],
+  "plugins": ["jest", "prettier"],
   "rules": {
     "prettier/prettier": "error",
     "comma-dangle": 0,
@@ -26,7 +26,6 @@
       }
     ],
     "newline-per-chained-call": 0,
-    "object-curly-newline": 0,
-    "chai-friendly/no-unused-expressions": 2
+    "object-curly-newline": 0
   }
 }

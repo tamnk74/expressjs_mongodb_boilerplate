@@ -59,7 +59,7 @@ export default class EventController {
         startDate: req.body.startDate,
         dueDate: req.body.dueDate,
         description: req.body.description,
-        user: req.user._id,
+        user: req.user.id,
       });
 
       const result = await event.save();
