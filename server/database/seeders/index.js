@@ -1,13 +1,10 @@
+require('@babel/register');
 require('@babel/polyfill');
-require('dotenv').config();
-
 const mongoose = require('mongoose');
+const { dbConfig } = require('../../config');
 
-const dbUrl = process.env.MONGODB_URI;
 mongoose.Promise = global.Promise;
-mongoose.connect(dbUrl, {
-  useNewUrlParser: true,
-});
+mongoose.connect(dbConfig.URL, dbConfig.options);
 
 const userSeeder = require('./user_seeder');
 const tagSeeder = require('./tag_seeder');

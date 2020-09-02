@@ -1,5 +1,5 @@
 // This will be our application entry. We'll setup our server here.
-
+require('@babel/register');
 require('@babel/polyfill');
 require('./database');
 require('./schedulers/show-time');
