@@ -3,6 +3,7 @@ services:
   node-app:
     build: .
     image: node-app
+    container_name: node_app
     command: npm run dev
     # env_file: .env
     environment:
@@ -30,7 +31,7 @@ services:
       - node-network
   mongo-express:
     image: mongo-express
-    container_name: mongo_exporess
+    container_name: mongo_express
     links:
       - mongodb
     ports:

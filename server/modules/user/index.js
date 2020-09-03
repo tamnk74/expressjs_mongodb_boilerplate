@@ -5,13 +5,14 @@ import { auth } from '../../middlewares';
 
 const router = Router();
 
-router.route('/login').post(loginValidation, authController.login);
+router.post('/login', loginValidation, authController.login);
+router.post('/logout', auth, authController.logout);
 router.post('/refresh-token', refreshTokenValidation, authController.refrehToken);
 
-router.route('/users/').get([auth], userController.index);
-router.route('/users').post(userController.create);
-router.route('/users/:id').get([auth], userController.show);
-router.route('/users/:id').put([auth], userController.update);
-router.route('/users/:id').delete([auth], userController.delete);
+router.get('/users/', [auth], userController.index);
+router.post('/users', userController.create);
+router.get('/users/:id', [auth], userController.show);
+router.put('/users/:id', [auth], userController.update);
+router.delete('/users/:id', [auth], userController.delete);
 
 export default router;

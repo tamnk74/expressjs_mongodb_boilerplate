@@ -11,6 +11,15 @@ class AuthController {
     }
   };
 
+  logout = async (req, res, next) => {
+    try {
+      await authService.logout(req.user.id);
+      return res.status(200).json({});
+    } catch (e) {
+      next(e);
+    }
+  };
+
   refrehToken = async (req, res, next) => {
     try {
       const authUser = await authService.refrehToken(req.body.refresh_token);
