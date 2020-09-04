@@ -4,11 +4,11 @@ import faker, { fake } from 'faker';
 import httpStatus from 'http-status';
 import app from '../../../server/app';
 import { userAccessToken } from '../../data/token';
-import setup from '../../setupDatabase';
+import setupDatabase from '../../setupDatabase';
 import { insertEvents, userEvents } from '../../data/event';
 import { insertUsers, user } from '../../data/user';
 
-setup();
+setupDatabase();
 
 describe('GET api/events', () => {
   beforeAll(async () => {

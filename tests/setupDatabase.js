@@ -11,7 +11,6 @@ module.exports = async () => {
     await mongoose.connect(`${dbConfig.URL}-test`, dbConfig.options);
     await redis.hset(`${authPrefix}:${user._id}`, userAccessToken, 1);
   });
-
   afterAll(async () => {
     await mongoose.disconnect();
     await redis.hdel(`${authPrefix}:${user._id}`, userAccessToken);
