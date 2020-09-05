@@ -49,7 +49,17 @@ services:
       - 6379:6379
     networks:
       - node-network
-
+  swaggerui:
+    image: swaggerapi/swagger-ui
+    container_name: swagger_api
+    environment:
+      - API_URL=./index-api.yaml
+    volumes:
+      - ./docs/openapi.yaml:/usr/share/nginx/html/index-api.yaml
+    ports:
+      - '8080:8080'
+    networks:
+      - node-network
 volumes:
   dbdata:
   node_modules:

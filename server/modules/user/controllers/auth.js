@@ -1,11 +1,20 @@
 import { authService } from '../services';
-import { authSerializer } from '../serializer';
+import { authSerializer, userSerializer } from '../serializer';
 
 class AuthController {
   login = async (req, res, next) => {
     try {
       const result = await authService.authenticate(req.body);
       return res.status(200).json(authSerializer.serialize(result));
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  getProfile = async (req, res, next) => {
+    try {
+      const user = await authService.getUser(req.user.id);
+      return res.status(200).json(userSerializer.serialize(user));
     } catch (e) {
       next(e);
     }

@@ -2,6 +2,7 @@ module.exports = {
   testEnvironment: 'node',
   testEnvironmentOptions: {
     NODE_ENV: 'test',
+    REDIS_HOST: '127.0.0.1',
   },
   coveragePathIgnorePatterns: ['/node_modules/'],
   setupFiles: ['<rootDir>/node_modules/regenerator-runtime/runtime'],

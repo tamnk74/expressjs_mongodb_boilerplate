@@ -32,6 +32,10 @@ class AuthService {
     return redis.hdel(`${authPrefix}:${userId}`);
   };
 
+  getUser = (userId) => {
+    return User.findById(userId);
+  };
+
   refrehToken = async (refreshToken) => {
     const payload = await Jwt.verifyRefreshToken(refreshToken);
     const user = await User.findById(payload.userId);
