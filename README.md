@@ -40,7 +40,7 @@ A sample nodejs project using express and mongo database to help you start your 
 
 ### Run test
 
-> npm run test
+> npm test
 
 ### Run cli
 

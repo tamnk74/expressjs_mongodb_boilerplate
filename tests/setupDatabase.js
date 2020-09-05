@@ -14,5 +14,6 @@ module.exports = async () => {
   afterAll(async () => {
     await mongoose.disconnect();
     await redis.hdel(`${authPrefix}:${user._id}`, userAccessToken);
+    redis.disconnect();
   });
 };
