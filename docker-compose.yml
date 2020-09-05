@@ -8,6 +8,7 @@ services:
     # env_file: .env
     environment:
       - MONGODB_URI=mongodb://mongodb:27017/node-boilerplate
+      - REDIS_HOST=redis
       # - MONGO_USERNAME=$MONGO_USERNAME
       # - MONGO_PASSWORD=$MONGO_PASSWORD
       # - MONGO_HOSTNAME=db
