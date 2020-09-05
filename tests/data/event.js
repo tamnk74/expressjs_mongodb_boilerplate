@@ -32,9 +32,4 @@ const insertEvents = async (events) => {
   await Event.insertMany(events);
 };
 
-module.exports = {
-  userEvents,
-  userTwoEvents,
-  adminEvents,
-  insertEvents,
-};
+export { userEvents, userTwoEvents, adminEvents, insertEvents };
