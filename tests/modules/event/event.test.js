@@ -1,6 +1,6 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
-import faker, { fake } from 'faker';
+import faker from 'faker';
 import httpStatus from 'http-status';
 import app from '../../../server/app';
 import { userAccessToken } from '../../data/token';
@@ -22,7 +22,7 @@ describe('GET api/events', () => {
 
   it('Should response success when sending valid token', async () => {
     const { statusCode, body } = await request(app)
-      .get('/api/events?limit=' + userEvents.length)
+      .get(`/api/events?limit=${userEvents.length}`)
       .set('Authorization', `Bearer ${userAccessToken}`);
     expect(statusCode).toBe(httpStatus.OK);
     expect(body.data.length).toBe(userEvents.length);
@@ -79,13 +79,13 @@ describe('GET api/events/:id', () => {
     await insertEvents(userEvents);
   });
   it('Check authentification', async () => {
-    const { statusCode } = await request(app).get('/api/events/' + userEvents[0]._id);
+    const { statusCode } = await request(app).get(`/api/events/${userEvents[0]._id}`);
     expect(statusCode).toBe(httpStatus.UNAUTHORIZED);
   });
 
   it('Should response success when sending valid token', async () => {
     const { statusCode } = await request(app)
-      .get('/api/events/' + userEvents[0]._id)
+      .get(`/api/events/${userEvents[0]._id}`)
       .set('Authorization', `Bearer ${userAccessToken}`);
     expect(statusCode).toBe(httpStatus.OK);
   });
@@ -104,20 +104,18 @@ describe('PATCH api/events/:id', () => {
     await insertEvents(userEvents);
   });
   it('Check authentification', async () => {
-    const { statusCode } = await request(app)
-      .patch('/api/events/' + userEvents[0]._id)
-      .send({
-        name: faker.name.title(),
-        startDate: faker.date.past(),
-        dueDate: faker.date.future(),
-        description: faker.name.title(),
-      });
+    const { statusCode } = await request(app).patch(`/api/events/${userEvents[0]._id}`).send({
+      name: faker.name.title(),
+      startDate: faker.date.past(),
+      dueDate: faker.date.future(),
+      description: faker.name.title(),
+    });
     expect(statusCode).toBe(httpStatus.UNAUTHORIZED);
   });
 
   it('Should response success when sending valid token', async () => {
     const { statusCode } = await request(app)
-      .patch('/api/events/' + userEvents[0]._id)
+      .patch(`/api/events/${userEvents[0]._id}`)
       .set('Authorization', `Bearer ${userAccessToken}`)
       .send({
         name: faker.name.title(),
@@ -142,13 +140,13 @@ describe('DELETE api/events/:id', () => {
     await insertEvents(userEvents);
   });
   it('Check authentification', async () => {
-    const { statusCode } = await request(app).delete('/api/events/' + userEvents[0]._id);
+    const { statusCode } = await request(app).delete(`/api/events/${userEvents[0]._id}`);
     expect(statusCode).toBe(httpStatus.UNAUTHORIZED);
   });
 
   it('Should response success when sending valid token', async () => {
     const { statusCode } = await request(app)
-      .delete('/api/events/' + userEvents[0]._id)
+      .delete(`/api/events/${userEvents[0]._id}`)
       .set('Authorization', `Bearer ${userAccessToken}`);
     expect(statusCode).toBe(httpStatus.NO_CONTENT);
   });
