@@ -4,6 +4,6 @@ import { auth } from '../../middlewares';
 
 const router = Router();
 
-router.route('/analysis').get([auth], analysisController.index);
+router.get('/analysis', [auth], analysisController.index);
 
 export default router;

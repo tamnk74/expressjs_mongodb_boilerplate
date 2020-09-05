@@ -1,6 +1,8 @@
 import User from '../../../models/user';
 import { errorFactory } from '../../../errors';
 import Jwt from '../../../helpers/JWT';
+import redis from '../../../helpers/Redis';
+import { authPrefix } from '../../../config';
 
 class AuthService {
   authenticate = async ({ email = '', password }) => {
@@ -14,6 +16,11 @@ class AuthService {
       Jwt.generateRefreshToken(user.id),
     ]);
 
+    await Promise.all([
+      redis.hset(`${authPrefix}:${user.id}`, accessToken, 1),
+      redis.hset(`${authPrefix}:${user.id}`, refreshToken, accessToken),
+    ]);
+
     return {
       accessToken,
       refreshToken,
@@ -21,10 +28,15 @@ class AuthService {
     };
   };
 
+  logout = (userId) => {
+    return redis.hdel(`${authPrefix}:${userId}`);
+  };
+
   refrehToken = async (refreshToken) => {
     const payload = await Jwt.verifyRefreshToken(refreshToken);
     const user = await User.findById(payload.userId);
     const accessToken = await Jwt.generateToken(user.toPayload());
+    await redis.hset(`${authPrefix}:${user.id}`, accessToken, 1);
 
     return {
       accessToken,

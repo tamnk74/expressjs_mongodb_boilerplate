@@ -5,13 +5,13 @@ import { createEventValidation, updateEventValidation, verifyUserEvent } from '.
 
 const router = Router();
 
-router.route('/events').get(auth, eventController.index);
-router.route('/events/ended').get(auth, eventController.endedEvent);
-router.route('/events/').post(auth, createEventValidation, eventController.create);
-router.route('/events/:id').get(auth, verifyUserEvent, eventController.show);
+router.get('/events', auth, eventController.index);
+router.get('/events/ended', auth, eventController.endedEvent);
+router.post('/events/', auth, createEventValidation, eventController.create);
+router.get('/events/:id', auth, verifyUserEvent, eventController.show);
 router
   .route('/events/:id')
   .patch(auth, updateEventValidation, verifyUserEvent, eventController.update);
-router.route('/events/:id').delete(auth, verifyUserEvent, eventController.delete);
+router.delete('/events/:id', auth, verifyUserEvent, eventController.delete);
 
 export default router;

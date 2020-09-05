@@ -2,11 +2,11 @@ import request from 'supertest';
 import mongoose from 'mongoose';
 import httpStatus from 'http-status';
 import app from '../../../server/app';
-import setup from '../../setupDatabase';
+import setupDatabase from '../../setupDatabase';
 import { insertUsers, user, userTwo, admin } from '../../data/user';
 import { userAccessToken } from '../../data/token';
 
-setup();
+setupDatabase();
 
 const users = [user, userTwo, admin];
 describe('# Post /api/login', () => {

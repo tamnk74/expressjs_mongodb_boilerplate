@@ -1,20 +1,34 @@
-import redis from 'redis';
-import util from 'util';
-import { host, port, db } from '../config/redis';
+import Redis from 'ioredis';
+import redisConfig from '../config/redis';
 
-const clientRedis = redis.createClient({
-  port,
-  host,
-  db,
-});
+const redis = new Redis(redisConfig);
 
-export const set = util.promisify(clientRedis.set).bind(clientRedis);
-export const get = util.promisify(clientRedis.get).bind(clientRedis);
-export const del = util.promisify(clientRedis.del).bind(clientRedis);
-export const exists = util.promisify(clientRedis.exists).bind(clientRedis);
+export default redis;
+// import Redis from 'redis';
+// import { promisify } from 'util';
+// import redisConfig from '../config/redis';
 
-// Hash
-export const hset = util.promisify(clientRedis.hset).bind(clientRedis);
-export const hget = util.promisify(clientRedis.hget).bind(clientRedis);
-export const hdel = util.promisify(clientRedis.hdel).bind(clientRedis);
-export const hexists = util.promisify(clientRedis.hexists).bind(clientRedis);
+// const clientRedis = Redis.createClient(redisConfig);
+
+// clientRedis.on('error', (error) => {
+//   console.error(error);
+// });
+
+// const redis = {
+//   set: promisify(clientRedis.set).bind(clientRedis),
+//   get: promisify(clientRedis.get).bind(clientRedis),
+//   del: promisify(clientRedis.del).bind(clientRedis),
+//   exists: promisify(clientRedis.exists).bind(clientRedis),
+
+//   // Hash
+//   hset: promisify(clientRedis.hset).bind(clientRedis),
+//   hget: promisify(clientRedis.hget).bind(clientRedis),
+//   hdel: promisify(clientRedis.hdel).bind(clientRedis),
+//   hexists: promisify(clientRedis.hexists).bind(clientRedis),
+
+//   disconnect: () => {
+//     clientRedis.end(true);
+//   },
+// };
+
+// export default redis;
