@@ -24,6 +24,8 @@ A sample nodejs project using express and mongo database to help you start your 
 
 > docker-compose exec redis redis-cli
 
+> docker exec -it redis /bin/sh
+
 ### Build app
 
 > npm run build

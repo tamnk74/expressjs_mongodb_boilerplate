@@ -9,9 +9,11 @@ import { insertEvents, userEvents } from '../../data/event';
 import { insertUsers, user } from '../../data/user';
 
 setupDatabase();
+let token;
 
 describe('GET api/events', () => {
   beforeAll(async () => {
+    token = await userAccessToken;
     await insertUsers([user]);
     await insertEvents(userEvents);
   });
@@ -23,7 +25,7 @@ describe('GET api/events', () => {
   it('Should response success when sending valid token', async () => {
     const { statusCode, body } = await request(app)
       .get(`/api/events?limit=${userEvents.length}`)
-      .set('Authorization', `Bearer ${userAccessToken}`);
+      .set('Authorization', `Bearer ${token}`);
     expect(statusCode).toBe(httpStatus.OK);
     expect(body.data.length).toBe(userEvents.length);
   });
@@ -54,7 +56,7 @@ describe('POST api/events', () => {
   it('Should response success when sending valid token', async () => {
     const { statusCode } = await request(app)
       .post('/api/events')
-      .set('Authorization', `Bearer ${userAccessToken}`)
+      .set('Authorization', `Bearer ${token}`)
       .send({
         name: faker.name.title(),
         startDate: faker.date.past(),
@@ -86,7 +88,7 @@ describe('GET api/events/:id', () => {
   it('Should response success when sending valid token', async () => {
     const { statusCode } = await request(app)
       .get(`/api/events/${userEvents[0]._id}`)
-      .set('Authorization', `Bearer ${userAccessToken}`);
+      .set('Authorization', `Bearer ${token}`);
     expect(statusCode).toBe(httpStatus.OK);
   });
   afterAll(async () => {
@@ -116,7 +118,7 @@ describe('PATCH api/events/:id', () => {
   it('Should response success when sending valid token', async () => {
     const { statusCode } = await request(app)
       .patch(`/api/events/${userEvents[0]._id}`)
-      .set('Authorization', `Bearer ${userAccessToken}`)
+      .set('Authorization', `Bearer ${token}`)
       .send({
         name: faker.name.title(),
         startDate: faker.date.past(),
@@ -147,7 +149,7 @@ describe('DELETE api/events/:id', () => {
   it('Should response success when sending valid token', async () => {
     const { statusCode } = await request(app)
       .delete(`/api/events/${userEvents[0]._id}`)
-      .set('Authorization', `Bearer ${userAccessToken}`);
+      .set('Authorization', `Bearer ${token}`);
     expect(statusCode).toBe(httpStatus.NO_CONTENT);
   });
   afterAll(async () => {

@@ -2,8 +2,7 @@ import passport from 'passport';
 import { ExtractJwt } from 'passport-jwt';
 import User from '../models/user';
 import { errorFactory } from '../errors';
-import redis from '../helpers/Redis';
-import { authPrefix } from '../config';
+import Redis from '../helpers/Redis';
 
 export default (req, res, next) => {
   passport.authenticate('jwt', { session: false }, async (err, jwtPayload) => {
@@ -14,7 +13,7 @@ export default (req, res, next) => {
     }
 
     const token = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
-    const isValidToken = await redis.hexists(`${authPrefix}:${user.id}`, token);
+    const isValidToken = await Redis.isExistAccessToken(user.id, token);
     if (!isValidToken) {
       return next(errorFactory.getError('ERR-0401'));
     }
