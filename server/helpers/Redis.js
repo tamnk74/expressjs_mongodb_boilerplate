@@ -1,34 +1,42 @@
 import Redis from 'ioredis';
-import redisConfig from '../config/redis';
+import { redisConfig } from '../config';
 
-const redis = new Redis(redisConfig);
+const redis = new Redis({
+  port: redisConfig.port,
+  host: redisConfig.host,
+  user: redisConfig.user,
+  password: redisConfig.password,
+  db: redisConfig.db,
+});
+const authPrefix = 'auth:';
+const oauthPrefix = 'oauth:';
 
-export default redis;
-// import Redis from 'redis';
-// import { promisify } from 'util';
-// import redisConfig from '../config/redis';
+export default class RedisService {
+  static saveAccessToken(userId, token, value = Date.now()) {
+    return redis.hset(authPrefix + userId, token, value);
+  }
 
-// const clientRedis = Redis.createClient(redisConfig);
+  static saveOauthCode(userId, code) {
+    return redis.set(`${oauthPrefix}${code}`, userId, 'EX', 3600);
+  }
 
-// clientRedis.on('error', (error) => {
-//   console.error(error);
-// });
+  static getOauthCode(code) {
+    return redis.get(`${oauthPrefix}${code}`);
+  }
 
-// const redis = {
-//   set: promisify(clientRedis.set).bind(clientRedis),
-//   get: promisify(clientRedis.get).bind(clientRedis),
-//   del: promisify(clientRedis.del).bind(clientRedis),
-//   exists: promisify(clientRedis.exists).bind(clientRedis),
+  static isExistAccessToken(userId, token) {
+    return redis.hexists(authPrefix + userId, token);
+  }
 
-//   // Hash
-//   hset: promisify(clientRedis.hset).bind(clientRedis),
-//   hget: promisify(clientRedis.hget).bind(clientRedis),
-//   hdel: promisify(clientRedis.hdel).bind(clientRedis),
-//   hexists: promisify(clientRedis.hexists).bind(clientRedis),
+  static getRoleAccessToken(userId, token) {
+    return redis.hget(authPrefix + userId, token);
+  }
 
-//   disconnect: () => {
-//     clientRedis.end(true);
-//   },
-// };
+  static removeAccessToken(userId, token) {
+    return redis.hdel(authPrefix + userId, token);
+  }
 
-// export default redis;
+  static disconnect() {
+    return redis.disconnect();
+  }
+}

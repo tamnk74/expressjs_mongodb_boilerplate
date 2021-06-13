@@ -1,4 +1,4 @@
-FROM node:12.13.0-alpine
+FROM 14-alpine
 
 RUN apk update && apk add bash && apk add python && apk add make && npm install -g loopback-cli && npm install -g nodemon && npm install -g node-pre-gyp
 

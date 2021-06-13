@@ -2,15 +2,14 @@ import request from 'supertest';
 import mongoose from 'mongoose';
 import httpStatus from 'http-status';
 import app from '../../../server/app';
-import setupDatabase from '../../setupDatabase';
-import { insertUsers, user, userTwo, admin } from '../../data/user';
-import { userAccessToken } from '../../data/token';
+import { insertUsers, user, userTwo, admin } from '../../fixtures/user';
+import { getAccessToken } from '../../fixtures/util';
 
-setupDatabase();
-
+let token;
 const users = [user, userTwo, admin];
 describe('# Post /api/login', () => {
   beforeAll(async () => {
+    token = await getAccessToken(user);
     await insertUsers(users);
   });
 
@@ -26,7 +25,7 @@ describe('# Post /api/login', () => {
   it('should return OK when getting user list', async () => {
     const { statusCode, body } = await request(app)
       .get('/api/users')
-      .set('Authorization', `Bearer ${userAccessToken}`);
+      .set('Authorization', `Bearer ${token}`);
 
     expect(statusCode).toBe(httpStatus.OK);
     expect(body.data.length).toBe(users.length);

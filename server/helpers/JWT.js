@@ -1,4 +1,5 @@
 import JsonWebToken from 'jsonwebtoken';
+import Redis from './Redis';
 import { jwtExpireTime, jwtSecretKey, jwtRefreshKey, jwtRefreshExpireTime } from '../config';
 
 export default class JWT {
@@ -21,14 +22,18 @@ export default class JWT {
     return token;
   }
 
-  static generateToken(payload) {
-    return JsonWebToken.sign(payload, jwtSecretKey, {
+  static async generateToken(payload, isCache = 0) {
+    const token = await JsonWebToken.sign(payload, jwtSecretKey, {
       expiresIn: jwtExpireTime,
       issuer: 'tamnk74@gmail.com',
     });
+    if (isCache) {
+      await Redis.saveAccessToken(payload.user.id, token, Date.now());
+    }
+    return token;
   }
 
-  static generateRefreshToken(userId) {
+  static async generateRefreshToken(userId) {
     return JsonWebToken.sign({ userId }, jwtRefreshKey, {
       expiresIn: jwtRefreshExpireTime,
     });

@@ -1,8 +1,7 @@
 import User from '../../../models/user';
 import { errorFactory } from '../../../errors';
 import Jwt from '../../../helpers/JWT';
-import redis from '../../../helpers/Redis';
-import { authPrefix } from '../../../config';
+import Redis from '../../../helpers/Redis';
 
 class AuthService {
   authenticate = async ({ email = '', password }) => {
@@ -12,13 +11,8 @@ class AuthService {
     }
 
     const [accessToken, refreshToken] = await Promise.all([
-      Jwt.generateToken(user.toPayload()),
+      Jwt.generateToken(user.toPayload(), 1),
       Jwt.generateRefreshToken(user.id),
-    ]);
-
-    await Promise.all([
-      redis.hset(`${authPrefix}:${user.id}`, accessToken, 1),
-      redis.hset(`${authPrefix}:${user.id}`, refreshToken, accessToken),
     ]);
 
     return {
@@ -28,19 +22,18 @@ class AuthService {
     };
   };
 
-  logout = (userId) => {
-    return redis.hdel(`${authPrefix}:${userId}`);
+  logout = (userId, token) => {
+    return Redis.removeAccessToken(userId, token);
   };
 
   getUser = (userId) => {
     return User.findById(userId);
   };
 
-  refrehToken = async (refreshToken) => {
+  refreshToken = async (refreshToken) => {
     const payload = await Jwt.verifyRefreshToken(refreshToken);
     const user = await User.findById(payload.userId);
-    const accessToken = await Jwt.generateToken(user.toPayload());
-    await redis.hset(`${authPrefix}:${user.id}`, accessToken, 1);
+    const accessToken = await Jwt.generateToken(user.toPayload(), 1);
 
     return {
       accessToken,

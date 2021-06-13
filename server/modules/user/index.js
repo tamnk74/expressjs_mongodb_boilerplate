@@ -7,7 +7,7 @@ const router = Router();
 
 router.post('/login', loginValidation, authController.login);
 router.post('/logout', auth, authController.logout);
-router.post('/refresh-token', refreshTokenValidation, authController.refrehToken);
+router.post('/refresh-token', refreshTokenValidation, authController.refreshToken);
 router.get('/me', auth, authController.getProfile);
 router.get('/users/', [auth], userController.index);
 router.post('/users', userController.create);

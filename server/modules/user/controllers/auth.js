@@ -1,3 +1,4 @@
+import { ExtractJwt } from 'passport-jwt';
 import { authService } from '../services';
 import { authSerializer, userSerializer } from '../serializer';
 
@@ -22,16 +23,17 @@ class AuthController {
 
   logout = async (req, res, next) => {
     try {
-      await authService.logout(req.user.id);
+      const token = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
+      await authService.logout(req.user.id, token);
       return res.status(200).json({});
     } catch (e) {
       next(e);
     }
   };
 
-  refrehToken = async (req, res, next) => {
+  refreshToken = async (req, res, next) => {
     try {
-      const authUser = await authService.refrehToken(req.body.refresh_token);
+      const authUser = await authService.refreshToken(req.body.refresh_token);
 
       return res.status(200).json(authSerializer.serialize(authUser));
     } catch (e) {
