@@ -2,16 +2,14 @@ import request from 'supertest';
 import mongoose from 'mongoose';
 import httpStatus from 'http-status';
 import app from '../../../server/app';
-import setupDatabase from '../../setupDatabase';
-import { insertUsers, user, userTwo, admin } from '../../data/user';
-import { userAccessToken } from '../../data/token';
+import { insertUsers, user, userTwo, admin } from '../../fixtures/user';
+import { getAccessToken } from '../../fixtures/util';
 
-setupDatabase();
 let token;
 const users = [user, userTwo, admin];
 describe('# Post /api/login', () => {
   beforeAll(async () => {
-    token = await userAccessToken;
+    token = await getAccessToken(user);
     await insertUsers(users);
   });
 

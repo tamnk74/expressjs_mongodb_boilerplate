@@ -3,17 +3,15 @@ import mongoose from 'mongoose';
 import faker from 'faker';
 import httpStatus from 'http-status';
 import app from '../../../server/app';
-import { userAccessToken } from '../../data/token';
-import setupDatabase from '../../setupDatabase';
-import { insertEvents, userEvents } from '../../data/event';
-import { insertUsers, user } from '../../data/user';
+import { getAccessToken } from '../../fixtures/util';
+import { insertEvents, userEvents } from '../../fixtures/event';
+import { insertUsers, user } from '../../fixtures/user';
 
-setupDatabase();
 let token;
 
 describe('GET api/events', () => {
   beforeAll(async () => {
-    token = await userAccessToken;
+    token = await getAccessToken(user);
     await insertUsers([user]);
     await insertEvents(userEvents);
   });

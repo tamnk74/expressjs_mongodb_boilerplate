@@ -7,7 +7,7 @@ export * from './zalo';
 
 // Mongodb config
 export const dbConfig = {
-  URL: process.env.MONGODB_URI || 'mongodb://mongodb:27017/node-boilerplate',
+  URL: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/node-boilerplate',
   options: {
     useNewUrlParser: true,
     useUnifiedTopology: true,
