@@ -1,17 +1,16 @@
-import Event from '../../../models/event';
 import { eventSerializer } from '../serializer';
 
-export default class EventController {
+export class EventController {
   /**
    * Paginate event
    */
+  constructor({ eventService }) {
+    this.eventService = eventService;
+  }
+
   index = async (req, res, next) => {
     try {
-      const { page = 1, limit = 5 } = req.query;
-      const events = await Event.find()
-        .populate('user')
-        .skip(limit * page - limit)
-        .limit(+limit);
+      const events = await this.eventService.findAll(req.query);
 
       return res.status(200).json(eventSerializer.serialize(events));
     } catch (err) {
@@ -24,12 +23,10 @@ export default class EventController {
    */
   endedEvent = async (req, res, next) => {
     try {
-      const { page = 1, limit = 5 } = req.query;
-      const events = await Event.find({
+      const events = await this.eventService.findAll({
         dueDate: { $lte: new Date() },
-      })
-        .skip(limit * page - limit)
-        .limit(limit);
+        ...req.query,
+      });
       return res.status(200).json(eventSerializer.serialize(events));
     } catch (err) {
       return next(err);
@@ -54,15 +51,13 @@ export default class EventController {
    */
   create = async (req, res, next) => {
     try {
-      const event = new Event({
+      const result = await this.eventService.createEvent({
         name: req.body.name,
         startDate: req.body.startDate,
         dueDate: req.body.dueDate,
         description: req.body.description,
         user: req.user.id,
       });
-
-      const result = await event.save();
 
       return res.status(201).json(eventSerializer.serialize(result));
     } catch (err) {
@@ -77,7 +72,7 @@ export default class EventController {
     try {
       const { event } = req;
 
-      await Event.findByIdAndUpdate(req.params.id, {
+      await this.eventService.updateEvent(req.params.id, {
         name: req.body.name || event.name,
         startDate: req.body.startDate || event.startDate,
         dueDate: req.body.dueDate || event.dueDate,
@@ -95,7 +90,7 @@ export default class EventController {
    */
   delete = async (req, res, next) => {
     try {
-      await Event.findByIdAndRemove(req.params.id);
+      await this.eventService.removeEvent(req.params.id);
 
       return res.status(204).json({});
     } catch (err) {

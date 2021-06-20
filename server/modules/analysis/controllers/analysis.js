@@ -1,14 +1,14 @@
-import { analysisService } from '../services';
+export class AnalysisController {
+  constructor({ analysisService }) {
+    this.analysisService = analysisService;
+  }
 
-class AnalysisController {
   index = async (req, res, next) => {
     try {
-      const result = await analysisService.statistic(req.query);
+      const result = await this.analysisService.statistic(req.query);
       return res.status(200).json(result);
     } catch (e) {
       next(e);
     }
   };
 }
-
-export default AnalysisController;

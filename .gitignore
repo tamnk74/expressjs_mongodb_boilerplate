@@ -120,4 +120,4 @@ yarn-error.log
 
 /server/config/*.json
 /server/config/cert/*
-/.vscode
+
