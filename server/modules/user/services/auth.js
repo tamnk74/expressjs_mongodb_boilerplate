@@ -1,11 +1,14 @@
-import User from '../../../models/user';
 import { errorFactory } from '../../../errors';
 import Jwt from '../../../helpers/JWT';
 import Redis from '../../../helpers/Redis';
 
-class AuthService {
+export class AuthService {
+  constructor({ UserModel }) {
+    this.UserModel = UserModel;
+  }
+
   authenticate = async ({ email = '', password }) => {
-    const user = await User.findOne({ email });
+    const user = await this.UserModel.findOne({ email });
     if (!user || !user.comparePassword(password)) {
       throw errorFactory.getError('LOG-0001');
     }
@@ -27,12 +30,12 @@ class AuthService {
   };
 
   getUser = (userId) => {
-    return User.findById(userId);
+    return this.UserModel.findById(userId);
   };
 
   refreshToken = async (refreshToken) => {
     const payload = await Jwt.verifyRefreshToken(refreshToken);
-    const user = await User.findById(payload.userId);
+    const user = await this.UserModel.findById(payload.userId);
     const accessToken = await Jwt.generateToken(user.toPayload(), 1);
 
     return {
@@ -41,5 +44,3 @@ class AuthService {
     };
   };
 }
-
-export default AuthService;

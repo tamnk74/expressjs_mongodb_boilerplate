@@ -1,6 +1,6 @@
 import Post from '../../../models/post';
 
-class AnalysisService {
+export class AnalysisService {
   statistic = async () => {
     const posts = await this.getPosts();
     return {
@@ -67,5 +67,3 @@ class AnalysisService {
       },
     ]);
 }
-
-export default AnalysisService;

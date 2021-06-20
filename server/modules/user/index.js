@@ -1,7 +1,19 @@
 import { Router } from 'express';
-import { authController, userController } from './controllers';
+import { UserController, AuthController } from './controllers';
+import { UserService, AuthService } from './services';
 import { loginValidation, refreshTokenValidation } from './middlewares';
 import { auth } from '../../middlewares';
+import User from '../../models/user';
+
+const userService = new UserService({ UserModel: User });
+const authService = new AuthService({ UserModel: User });
+
+const userController = new UserController({
+  userService,
+});
+const authController = new AuthController({
+  authService,
+});
 
 const router = Router();
 
