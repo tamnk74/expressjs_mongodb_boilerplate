@@ -5,7 +5,7 @@ const users = [
     filter: { name: 'admin' },
     data: {
       name: 'admin',
-      email: 'tamnk74@gmail.com',
+      email: 'admin@mailinator.com',
       password: 'Admin123!@#',
     },
   },
