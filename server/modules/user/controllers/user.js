@@ -1,13 +1,16 @@
-import User from '../../../models/user';
 import { userSerializer } from '../serializer';
 
-export default class UserController {
+export class UserController {
+  constructor({ userService }) {
+    this.userService = userService;
+  }
+
   /**
    * Get all users
    */
   index = async (req, res, next) => {
     try {
-      const users = await User.find();
+      const users = await this.userService.findAll(req.query);
       return res.status(200).json(userSerializer.serialize(users));
     } catch (err) {
       return next(err);
@@ -19,26 +22,12 @@ export default class UserController {
    */
   create = async (req, res, next) => {
     try {
-      const user = new User({
+      const user = await this.userService.createUser({
         name: req.body.name,
         password: req.body.password,
       });
-      const result = await user.save();
 
-      return res.status(200).json(userSerializer.serialize(result));
-    } catch (err) {
-      return next(err);
-    }
-  };
-
-  /**
-   * Get all users
-   */
-  findAll = async (req, res, next) => {
-    try {
-      const users = await User.find();
-
-      return res.status(200).json(userSerializer.serialize(users));
+      return res.status(200).json(userSerializer.serialize(user));
     } catch (err) {
       return next(err);
     }
@@ -49,7 +38,7 @@ export default class UserController {
    */
   show = async (req, res, next) => {
     try {
-      const user = await User.findById(req.params.id).populate('user');
+      const user = await this.userService.findById(req.params.id);
 
       return res.status(200).json(userSerializer.serialize(user));
     } catch (err) {
@@ -62,7 +51,7 @@ export default class UserController {
    */
   update = async (req, res, next) => {
     try {
-      await User.findByIdAndUpdate(
+      await this.userService.updateUser(
         req.params.id,
         Object.assign(
           req.body.name ? { name: req.body.name } : {},
@@ -82,7 +71,7 @@ export default class UserController {
    */
   delete = async (req, res, next) => {
     try {
-      await User.findByIdAndRemove(req.params.id);
+      await this.userService.removeUser(req.params.id);
 
       return res.status(200).json({});
     } catch (err) {
